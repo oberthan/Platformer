@@ -108,7 +108,7 @@ func _physics_process(delta: float) -> void:
 		if position.y > 1000:
 			position.y = -100
 			velocity.y = 0
-			health -= 35
+			decrease_health(35)
 			rpc("updatePos", name, position, velocity)		
 		else:
 			rpc("updatePos", name, position, velocity)		
@@ -118,6 +118,10 @@ func _physics_process(delta: float) -> void:
 		
 		move_and_slide()
 		#position = lerp(position, updated_position, delta*15)
+
+func decrease_health(amount):
+	health -= amount
+	rpc("updateHealth", name, health)
 	
 @rpc("unreliable", "any_peer", "call_local") func updatePos(id, pos, vel):
 	if !is_multiplayer_authority():
@@ -131,3 +135,8 @@ func _physics_process(delta: float) -> void:
 		if name == id:
 			animation_sprite.set_flip_h(flip)
 			animation_sprite.play(animationName)
+			
+@rpc("any_peer", "call_local") func updateHealth(id, hp):
+	if !is_multiplayer_authority():
+		if name == id:
+			health = hp
