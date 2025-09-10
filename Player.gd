@@ -4,11 +4,13 @@ extends CharacterBody2D
 @onready var animation_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collider_body: CollisionShape2D = $ColliderBody
 @onready var collider_top: CollisionShape2D = $ColliderTop
-
+@onready var health_bar: ProgressBar = $ProgressBar
+@onready var sb = StyleBoxFlat.new()
 
 var SPEED = 300.0
 var JUMP_VELOCITY = -400.0
 var facing_left = true
+var health: float = 100
 
 var eDelta = 0
 
@@ -42,6 +44,10 @@ func _ready() -> void:
 	collider_top.disabled = is_multiplayer_authority()
 	set_collision_mask_value(1, is_multiplayer_authority())
 	
+	
+	health_bar.add_theme_stylebox_override("fill", sb)
+	sb.bg_color = Color("00ff00")
+	
 
 var prev_animation = ""
 func _process(delta: float) -> void:
@@ -59,8 +65,18 @@ func _process(delta: float) -> void:
 		if animationName != prev_animation:
 			prev_animation = animationName
 			rpc("updateAnimation", name,animationName, facing_left)
-		
 	
+
+	if health >= 100:
+		
+		health_bar.hide()
+	else:
+		health += delta
+
+		health_bar.show()
+	health_bar.value = health
+	sb.bg_color = Color.from_hsv(max((health-25)/225.0, 0), 1, 1, 1)
+	#sb.bg_color = Color.from_hsv(0.3, 1, 1, 1)
 
 	
 var updated_position = Vector2.ZERO
@@ -92,6 +108,7 @@ func _physics_process(delta: float) -> void:
 		if position.y > 1000:
 			position.y = -100
 			velocity.y = 0
+			health -= 35
 			rpc("updatePos", name, position, velocity)		
 		else:
 			rpc("updatePos", name, position, velocity)		
