@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @export var cam = Camera2D
+@export var player_role: int = 0
 @onready var animation_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collider_body: CollisionShape2D = $ColliderBody
 @onready var collider_top: CollisionShape2D = $ColliderTop
@@ -45,7 +46,7 @@ func _ready() -> void:
 		if background:
 			background.set_camera_to_follow(cam)
 
-	match name.to_int():
+	match player_role:
 		1:
 			print("Player 1 using Pink")
 			animation_sprite.sprite_frames = preload("res://Pink_Monster_Frames.tres")
@@ -63,24 +64,6 @@ func _ready() -> void:
 
 var prev_animation = ""
 func _process(delta: float) -> void:
-	# Animation logic can remain client-side for responsiveness,
-	# but the server's state will ultimately be authoritative.
-	# This is a cosmetic layer.
-	var animationName = ""
-	if velocity == Vector2.ZERO:
-		animationName = "Idle"
-	elif is_on_floor():
-		animationName = "Walk"
-	else:
-		animationName = "Jump"
-
-	animation_sprite.play(animationName)
-	animation_sprite.set_flip_h(facing_left)
-	
-	if is_multiplayer_authority() and animationName != prev_animation:
-		prev_animation = animationName
-		rpc("update_animation", name, animationName, facing_left)
-
 	if health >= 100:
 		health_bar.hide()
 	else:
@@ -102,8 +85,11 @@ func _physics_process(delta: float) -> void:
 	if !Network.is_server:
 		# If server_position is not zero, start interpolating.
 		if server_position != Vector2.ZERO:
-			position = server_position
-			velocity = server_velocity
+			if position.distance_to(server_position) < 0.1:
+				position = server_position
+			else:
+				position = position.lerp(server_position, 0.2)
+			move_and_slide()
 
 # This function is only ever executed on the server.
 func apply_server_input(p_inputs, delta):
@@ -121,13 +107,25 @@ func apply_server_input(p_inputs, delta):
 		
 	if direction:
 		velocity.x = direction * SPEED
-		if facing_left != (direction<0):
-			facing_left = direction<0
-			rpc("update_animation", name, prev_animation, facing_left)
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-
+	facing_left = velocity.x < 0
+	
 	move_and_slide()
+	
+	# Server-authoritative animation logic
+	var new_animation = ""
+	if velocity == Vector2.ZERO:
+		new_animation = "Idle"
+	elif is_on_floor():
+		new_animation = "Walk"
+	else:
+		new_animation = "Jump"
+	
+	if new_animation != prev_animation:
+		prev_animation = new_animation
+		rpc("update_animation", name, new_animation, facing_left)
+
 
 	if position.y > 1000:
 		position.y = -100
@@ -144,18 +142,18 @@ func decrease_health(amount):
 @rpc("unreliable", "any_peer", "call_local")
 func update_client_state(p_position, p_velocity):
 	if !Network.is_server:
+		var pos_margin = 0.1
 		server_position = p_position
 		server_velocity = p_velocity
+		velocity = server_velocity
 
 @rpc("any_peer", "call_local")
 func update_animation(id, animationName, flip):
-	if !is_multiplayer_authority():
-		if name == id:
-			animation_sprite.set_flip_h(flip)
-			animation_sprite.play(animationName)
+	if name == id:
+		animation_sprite.set_flip_h(flip)
+		animation_sprite.play(animationName)
 
 @rpc("any_peer", "call_local")
 func update_health(id, hp):
-	if !is_multiplayer_authority():
-		if name == id:
-			health = hp
+	if name == id:
+		health = hp

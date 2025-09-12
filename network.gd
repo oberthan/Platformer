@@ -8,9 +8,10 @@ var player_inputs = {} # Stores the latest inputs for each player
 var connected_players = 0
 var max_players = 2
 
+
 func _ready():
 	if "--server" in OS.get_cmdline_args():
-		start_server(4242, 2)
+		start_server(1221, 2)
 
 func start_server(port, max_clients):
 	is_server = true
@@ -59,4 +60,10 @@ func switch_to_level(scene_path: String):
 @rpc("any_peer", "call_local")
 func receive_player_input(id, inputs):
 	if is_server:
-		player_inputs[id] = inputs
+			# Don't just overwrite the old inputs. Continuous inputs (like left/right)
+		# should be overwritten, but single-press actions (like jump) should be merged.
+		if inputs.jump:
+			player_inputs[id].jump = true
+		
+		player_inputs[id].left = inputs.left
+		player_inputs[id].right = inputs.right

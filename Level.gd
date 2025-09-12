@@ -3,8 +3,15 @@ extends Node2D
 @export var player_scene: PackedScene
 @onready var spawn_point = $SpawnPoint
 
+var role_counter: int = 1
+
 func _ready():
 	if Network.is_server:
+		# The server does not need a background. Remove it to save resources.
+		var background = find_child("Forest", false) # find_child is not recursive by default
+		if background:
+			background.queue_free()
+		
 		for id in Network.get_all_player_ids():
 			if id == 1 and "--server" not in OS.get_cmdline_args():
 				add_player(id)
@@ -16,17 +23,21 @@ func _ready():
 
 # This function is only called on the server
 func add_player(id: int):
-	rpc("spawn_player_on_clients", id)
+	rpc("spawn_player_on_clients", id, role_counter)
+	role_counter+=1
+	
 
 # This function is only called on the server
 func remove_player(id: int):
 	rpc("despawn_player_on_clients", id)
 
 @rpc("any_peer", "call_local")
-func spawn_player_on_clients(id: int):
+func spawn_player_on_clients(id: int, role: int):
 	var player = player_scene.instantiate()
 	player.name = str(id)
 	player.position = spawn_point.position
+	player.player_role = role
+	print("Player has role ", role)
 	add_child(player)
 	player.set_multiplayer_authority(id)
 	if Network.is_server:
@@ -47,3 +58,6 @@ func _physics_process(delta):
 				var player_node = Network.players[player_id]
 				var inputs = Network.player_inputs[player_id]
 				player_node.apply_server_input(inputs, delta)
+				
+				# Reset the jump input after it has been processed.
+				Network.player_inputs[player_id].jump = false

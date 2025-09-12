@@ -19,8 +19,12 @@ func set_camera_to_follow(camera_node: Camera2D):
 		call_deferred("_init_parallax")
 
 func _ready() -> void:
-	# Camera will be set by the authoritative player.
-	pass
+	set_camera_to_follow(get_viewport().get_camera_2d())
+
+#func _process(delta: float) -> void:
+	#if cam == null:
+		#print("Trying to set cam again: ")
+		#set_camera_to_follow(get_viewport().get_camera_2d())
 
 func _init_parallax():
 	if cam == null:

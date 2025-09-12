@@ -8,12 +8,12 @@ func _ready():
 	add_child(ip_address_input)
 
 func _on_host_pressed() -> void:
-	Network.start_server(4242, 2)
+	Network.start_server(1221, 2)
 	# The server will automatically switch to the level when it's ready.
 
 func _on_join_pressed() -> void:
 	var ip = ip_address_input.text
-	Network.start_client(ip, 4242)
+	Network.start_client(ip, 1221)
 
 
 func _on_start_game_pressed():
