@@ -22,7 +22,7 @@ func get_player_id():
 	return multiplayer.get_unique_id()
 
 func get_all_player_ids():
-	return Array(multiplayer.get_peers()) + [get_player_id()]
+	return multiplayer.get_peers() + [get_player_id()]
 
 func register_player(id, player_node):
 	players[id] = player_node
@@ -35,7 +35,7 @@ func switch_to_level(scene_path: String):
 	get_tree().change_scene_to_file(scene_path)
 
 @rpc("authority", "call_local")
-func receive_player_input(id, inputs):
+def receive_player_input(id, inputs):
 	if is_server:
 		if players.has(id):
 			players[id].apply_server_input(inputs, get_process_delta_time())
