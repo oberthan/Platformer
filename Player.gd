@@ -14,16 +14,20 @@ var health: float = 100
 
 var eDelta = 0
 
+var inputs = {
+	"left": false,
+	"right": false,
+	"jump": false
+}
 
-	
+var server_position = Vector2.ZERO
+var server_velocity = Vector2.ZERO
 
 func _enter_tree():
 	set_multiplayer_authority(name.to_int())
 	cam.enabled = is_multiplayer_authority()
 
 func _ready() -> void:
-	if is_multiplayer_authority():
-		rpc("updatePos", name, position, velocity)
 	cam.enabled = is_multiplayer_authority()
 	
 	match name.to_int():
@@ -64,7 +68,7 @@ func _process(delta: float) -> void:
 		animation_sprite.set_flip_h(facing_left)
 		if animationName != prev_animation:
 			prev_animation = animationName
-			rpc("updateAnimation", name,animationName, facing_left)
+			rpc("update_animation", name,animationName, facing_left)
 	
 
 	if health >= 100:
@@ -84,59 +88,63 @@ var updated_position = Vector2.ZERO
 func _physics_process(delta: float) -> void:
 	eDelta = delta
 	if is_multiplayer_authority():
-		# Add the gravity.
-		if not is_on_floor():
-			velocity += get_gravity() * delta
+		inputs.left = Input.is_action_pressed("left")
+		inputs.right = Input.is_action_pressed("right")
+		inputs.jump = Input.is_action_just_pressed("jump")
 
-		# Handle jump.
-		if Input.is_action_just_pressed("jump") and is_on_floor():
-			velocity.y = JUMP_VELOCITY
-
-		# Get the input direction and handle the movement/deceleration.
-		# As good practice, you should replace UI actions with custom gameplay actions.
-		var direction := Input.get_axis("left", "right")
-		if direction:
-			velocity.x = direction * SPEED
-			if facing_left != (direction<0):
-				facing_left = direction<0
-				rpc("updateAnimation", name, prev_animation, facing_left)
-		else:
-			velocity.x = move_toward(velocity.x, 0, SPEED)
-
-		move_and_slide()
-		
-		if position.y > 1000:
-			position.y = -100
-			velocity.y = 0
-			decrease_health(35)
-			rpc("updatePos", name, position, velocity)		
-		else:
-			rpc("updatePos", name, position, velocity)		
-			
-
+		Network.rpc_id(1, "receive_player_input", name.to_int(), inputs)
 	else:
+		# Interpolate the position of the remote player
+		position = position.linear_interpolate(server_position, 0.2)
+
+func apply_server_input(p_inputs, delta):
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	if p_inputs.jump and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	var direction = 0
+	if p_inputs.left:
+		direction = -1
+	elif p_inputs.right:
+		direction = 1
 		
-		move_and_slide()
-		#position = lerp(position, updated_position, delta*15)
+	if direction:
+		velocity.x = direction * SPEED
+		if facing_left != (direction<0):
+			facing_left = direction<0
+			rpc("update_animation", name, prev_animation, facing_left)
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+	move_and_slide()
+
+	if position.y > 1000:
+		position.y = -100
+		velocity.y = 0
+		decrease_health(35)
+
+	rpc("update_client_state", position, velocity)
 
 func decrease_health(amount):
 	health -= amount
-	rpc("updateHealth", name, health)
+	rpc("update_health", name, health)
 	
-@rpc("unreliable", "any_peer", "call_local") func updatePos(id, pos, vel):
+@rpc("unreliable", "any_peer", "call_local")
+func update_client_state(p_position, p_velocity):
 	if !is_multiplayer_authority():
-		if name == id:
-			velocity = vel
-			position = pos
+		server_position = p_position
+		server_velocity = p_velocity
 
 
-@rpc("any_peer", "call_local") func updateAnimation(id, animationName, flip):
+@rpc("any_peer", "call_local") func update_animation(id, animationName, flip):
 	if !is_multiplayer_authority():
 		if name == id:
 			animation_sprite.set_flip_h(flip)
 			animation_sprite.play(animationName)
 			
-@rpc("any_peer", "call_local") func updateHealth(id, hp):
+@rpc("any_peer", "call_local") func update_health(id, hp):
 	if !is_multiplayer_authority():
 		if name == id:
 			health = hp

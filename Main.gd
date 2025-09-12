@@ -1,30 +1,21 @@
 extends Node2D
 
-var peer = ENetMultiplayerPeer.new()
-@export var player_scene : PackedScene
+var ip_address_input = LineEdit.new()
 
-
+func _ready():
+	ip_address_input.text = "127.0.0.1"
+	ip_address_input.position = Vector2(100, 150)
+	add_child(ip_address_input)
 
 func _on_host_pressed() -> void:
-	peer.create_server(4242, 1)
-	multiplayer.multiplayer_peer = peer
-	multiplayer.peer_connected.connect(add_player)
-	add_player(multiplayer.get_unique_id())
-
+	Network.start_server(4242, 2)
+	# The server will automatically switch to the level when it's ready.
 
 func _on_join_pressed() -> void:
-	peer.create_client("127.0.0.1", 4242)
-	multiplayer.multiplayer_peer = peer
+	var ip = ip_address_input.text
+	Network.start_client(ip, 4242)
 
 
-func add_player(id = 1):
-	print("Player joined with id:", id)
-
-# Host starts game
 func _on_start_game_pressed():
-	if multiplayer.is_server():
-		rpc("switch_to_level", "res://Level_1.tscn")
-
-@rpc("authority", "call_local")
-func switch_to_level(scene_path: String):
-	get_tree().change_scene_to_file(scene_path)
+	if Network.is_server:
+		Network.rpc("switch_to_level", "res://Level_1.tscn")
