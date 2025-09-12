@@ -95,7 +95,7 @@ func _physics_process(delta: float) -> void:
 		Network.rpc_id(1, "receive_player_input", name.to_int(), inputs)
 	else:
 		# Interpolate the position of the remote player
-		position = position.linear_interpolate(server_position, 0.2)
+		position = position.lerp(server_position, 0.2)
 
 func apply_server_input(p_inputs, delta):
 	if not is_on_floor():
