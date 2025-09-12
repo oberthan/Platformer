@@ -39,3 +39,11 @@ func despawn_player_on_clients(id: int):
 		if Network.is_server:
 			Network.unregister_player(id)
 		player.queue_free()
+
+func _physics_process(delta):
+	if Network.is_server:
+		for player_id in Network.players:
+			if Network.player_inputs.has(player_id):
+				var player_node = Network.players[player_id]
+				var inputs = Network.player_inputs[player_id]
+				player_node.apply_server_input(inputs, delta)
