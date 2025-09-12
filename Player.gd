@@ -102,7 +102,8 @@ func _physics_process(delta: float) -> void:
 	if !Network.is_server:
 		# If server_position is not zero, start interpolating.
 		if server_position != Vector2.ZERO:
-			position = position.linear_interpolate(server_position, 0.2)
+			position = server_position
+			velocity = server_velocity
 
 # This function is only ever executed on the server.
 func apply_server_input(p_inputs, delta):

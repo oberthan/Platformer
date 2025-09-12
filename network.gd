@@ -42,7 +42,7 @@ func get_player_id():
 	return multiplayer.get_unique_id()
 
 func get_all_player_ids():
-	return multiplayer.get_peers() + [get_player_id()]
+	return Array(multiplayer.get_peers()) + [get_player_id()]
 
 func register_player(id, player_node):
 	players[id] = player_node
@@ -56,7 +56,7 @@ func switch_to_level(scene_path: String):
 
 # This RPC is called by clients to send their inputs.
 # The server just stores them.
-@rpc(any_peer, "call_local")
-def receive_player_input(id, inputs):
+@rpc("any_peer", "call_local")
+func receive_player_input(id, inputs):
 	if is_server:
 		player_inputs[id] = inputs
