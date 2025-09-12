@@ -34,7 +34,7 @@ func unregister_player(id):
 func switch_to_level(scene_path: String):
 	get_tree().change_scene_to_file(scene_path)
 
-@rpc("authority", "call_local")
+@rpc(any_peer, "call_local")
 def receive_player_input(id, inputs):
 	if is_server:
 		if players.has(id):
