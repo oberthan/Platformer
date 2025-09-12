@@ -55,4 +55,4 @@ func switch_to_level(scene_path: String):
 def receive_player_input(id, inputs):
 	if is_server:
 		if players.has(id):
-			players[id].apply_server_input(inputs, get_process_delta_time())
+			players[id].apply_server_input(inputs, get_physics_process_delta_time())
