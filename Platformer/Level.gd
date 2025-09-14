@@ -6,7 +6,7 @@ extends Node2D
 var role_counter: int = 1
 
 func _ready():
-	if Network.is_server:
+	if multiplayer.is_server():
 		# The server does not need a background. Remove it to save resources.
 		var background = find_child("Forest", false) # find_child is not recursive by default
 		if background:
@@ -40,19 +40,19 @@ func spawn_player_on_clients(id: int, role: int):
 	print("Player has role ", role)
 	add_child(player)
 	player.set_multiplayer_authority(id)
-	if Network.is_server:
+	if multiplayer.is_server():
 		Network.register_player(id, player)
 
 @rpc("any_peer", "call_local")
 func despawn_player_on_clients(id: int):
 	if has_node(str(id)):
 		var player = get_node(str(id))
-		if Network.is_server:
+		if multiplayer.is_server():
 			Network.unregister_player(id)
 		player.queue_free()
 
 func _physics_process(delta):
-	if Network.is_server:
+	if multiplayer.is_server():
 		for player_id in Network.players:
 			if Network.player_inputs.has(player_id):
 				var player_node = Network.players[player_id]

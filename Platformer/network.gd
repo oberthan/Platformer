@@ -23,7 +23,7 @@ func _ready():
 
 func start_server(port, max_clients):
 	max_players = max_clients
-	peer.create_server(port, max_clients)
+	peer.create_server(port)
 	multiplayer.multiplayer_peer = peer
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
@@ -48,7 +48,7 @@ func _on_peer_disconnected(id):
 		get_tree().change_scene_to_file("res://Main.tscn")
 
 func start_client(ip, port):
-	peer.create_client(ip, port)
+	peer.create_client(("{ip}:{port}".format({"ip":ip, "port":port})))
 	multiplayer.multiplayer_peer = peer
 
 func get_player_id():

@@ -29,7 +29,7 @@ func _enter_tree():
 func _ready() -> void:
 	# The server needs to simulate collisions for all players.
 	# Clients only need to simulate their own player.
-	if Network.is_server:
+	if multiplayer.is_server():
 		collider_body.disabled = false
 		collider_top.disabled = false
 	else:
@@ -82,7 +82,7 @@ func _physics_process(delta: float) -> void:
 
 	# On clients, all player nodes (local and remote) are puppets.
 	# They just interpolate to the state received from the server.
-	if !Network.is_server:
+	if !multiplayer.is_server():
 		# If server_position is not zero, start interpolating.
 		if server_position != Vector2.ZERO:
 			if position.distance_to(server_position) < 0.1:
@@ -141,7 +141,7 @@ func decrease_health(amount):
 # This RPC is received by all clients to update the state of their puppets.
 @rpc("unreliable", "any_peer", "call_local")
 func update_client_state(p_position, p_velocity):
-	if !Network.is_server:
+	if !multiplayer.is_server():
 		var pos_margin = 0.1
 		server_position = p_position
 		server_velocity = p_velocity
