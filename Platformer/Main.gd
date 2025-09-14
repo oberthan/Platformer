@@ -4,11 +4,17 @@ var ip_address_input = LineEdit.new()
 
 func _ready():
 	ip_address_input.text = "127.0.0.1"
-	ip_address_input.position = Vector2(100, 150)
-	add_child(ip_address_input)
+	var container = $VBoxContainer
+	container.add_child(ip_address_input)
+
+func _on_single_player_pressed() -> void:
+	Network.start_server(1221, 0)
+	Network.max_players = 1
+	Network._on_peer_connected(multiplayer.multiplayer_peer.get_unique_id())
 
 func _on_host_pressed() -> void:
-	Network.start_server(1221, 2)
+	Network.start_server(1221, 1)
+	Network._on_peer_connected(multiplayer.multiplayer_peer.get_unique_id())
 	# The server will automatically switch to the level when it's ready.
 
 func _on_join_pressed() -> void:

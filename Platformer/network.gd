@@ -16,10 +16,8 @@ var max_players = 2
 func _ready():
 	if OS.has_feature("web"): # Running in browser
 		peer = WebSocketMultiplayerPeer.new()
-		peer.create_server(1221) # or connect_to_url("ws://...")
 	else:
 		peer = ENetMultiplayerPeer.new()
-		peer.create_server(1221)
 		
 	if "--server" in OS.get_cmdline_args():
 		start_server(1221, 2)
