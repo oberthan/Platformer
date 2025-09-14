@@ -5,7 +5,6 @@ var peer
 
 
 	
-var is_server = false
 var players = {}
 var player_inputs = {} # Stores the latest inputs for each player
 
@@ -23,7 +22,6 @@ func _ready():
 		start_server(1221, 2)
 
 func start_server(port, max_clients):
-	is_server = true
 	max_players = max_clients
 	peer.create_server(port, max_clients)
 	multiplayer.multiplayer_peer = peer
@@ -43,6 +41,11 @@ func _on_peer_disconnected(id):
 	connected_players -= 1
 	player_inputs.erase(id)
 	print("Player disconnected: %d. Total players: %d/%d" % [id, connected_players, max_players])
+	if multiplayer.is_server() and connected_players == 0:
+		print("All players have disconnected. Resetting server.")
+		players.clear()
+		player_inputs.clear()
+		get_tree().change_scene_to_file("res://Main.tscn")
 
 func start_client(ip, port):
 	peer.create_client(ip, port)
@@ -68,7 +71,7 @@ func switch_to_level(scene_path: String):
 # The server just stores them.
 @rpc("any_peer", "call_local")
 func receive_player_input(id, inputs):
-	if is_server:
+	if multiplayer.is_server():
 			# Don't just overwrite the old inputs. Continuous inputs (like left/right)
 		# should be overwritten, but single-press actions (like jump) should be merged.
 		if inputs.jump:
