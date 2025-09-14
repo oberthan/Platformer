@@ -26,11 +26,11 @@ func start_server(port, max_clients):
 	debug_load_key_cert(key_path, cert_path)
 
 	if not key.load(key_path):
-		print("Failed to load private key: %s" % key_path)
+		push_error("Failed to load private key: %s" % key_path)
 		return
 
 	if not cert.load(cert_path):
-		print("Failed to load certificate: %s" % cert_path)
+		push_error("Failed to load certificate: %s" % cert_path)
 		return
 	
 	var tls_opts = TLSOptions.server(key, cert)
