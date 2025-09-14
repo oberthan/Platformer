@@ -1,8 +1,8 @@
-[gd_resource type="SpriteFrames" load_steps=20 format=3 uid="uid://bacf1gnkyg04t"]
+[gd_resource type="SpriteFrames" load_steps=20 format=3 uid="uid://64q2pxinwxqi"]
 
-[ext_resource type="Texture2D" uid="uid://bhj26thtu8wwv" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Idle_4.png" id="1_idv84"]
-[ext_resource type="Texture2D" uid="uid://c4m1emyqidtmn" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Jump_8.png" id="2_umjcs"]
-[ext_resource type="Texture2D" uid="uid://dmu8gohf2a0aa" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Walk_6.png" id="3_k5rpt"]
+[ext_resource type="Texture2D" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Idle_4.png" id="1_idv84"]
+[ext_resource type="Texture2D" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Jump_8.png" id="2_umjcs"]
+[ext_resource type="Texture2D" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Walk_6.png" id="3_k5rpt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ir8iy"]
 atlas = ExtResource("1_idv84")

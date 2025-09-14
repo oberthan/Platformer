@@ -1,8 +1,8 @@
-[gd_resource type="SpriteFrames" load_steps=22 format=3 uid="uid://cb2nwct5isoj1"]
+[gd_resource type="SpriteFrames" load_steps=22 format=3 uid="uid://prude2cd5x1t"]
 
-[ext_resource type="Texture2D" uid="uid://da1qgubsv0uft" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/3 Dude_Monster/Dude_Monster_Idle_4.png" id="1_ikgfq"]
-[ext_resource type="Texture2D" uid="uid://dlik33sk4g1ah" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/3 Dude_Monster/Dude_Monster_Jump_8.png" id="2_r24pd"]
-[ext_resource type="Texture2D" uid="uid://d3tt3lymax752" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/3 Dude_Monster/Dude_Monster_Walk_6.png" id="3_ocpor"]
+[ext_resource type="Texture2D" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/3 Dude_Monster/Dude_Monster_Idle_4.png" id="1_ikgfq"]
+[ext_resource type="Texture2D" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/3 Dude_Monster/Dude_Monster_Jump_8.png" id="2_r24pd"]
+[ext_resource type="Texture2D" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/3 Dude_Monster/Dude_Monster_Walk_6.png" id="3_ocpor"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wq30l"]
 atlas = ExtResource("1_ikgfq")
