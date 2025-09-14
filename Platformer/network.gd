@@ -1,6 +1,6 @@
 extends Node
 
-var peer
+var peer = WebSocketMultiplayerPeer.new()
 
 
 
@@ -13,10 +13,10 @@ var max_players = 2
 
 
 func _ready():
-	if OS.has_feature("web"): # Running in browser
-		peer = WebSocketMultiplayerPeer.new()
-	else:
-		peer = ENetMultiplayerPeer.new()
+	#if OS.has_feature("web"): # Running in browser
+		#peer = WebSocketMultiplayerPeer.new()
+	#else:
+		#peer = ENetMultiplayerPeer.new()
 		
 	if "--server" in OS.get_cmdline_args():
 		start_server(1221, 2)
