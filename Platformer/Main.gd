@@ -3,7 +3,7 @@ extends Node2D
 var ip_address_input = LineEdit.new()
 
 func _ready():
-	ip_address_input.text = "127.0.0.1"
+	ip_address_input.text = "185.181.221.55"
 	var container = $VBoxContainer
 	container.add_child(ip_address_input)
 
