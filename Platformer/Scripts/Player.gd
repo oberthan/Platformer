@@ -9,7 +9,7 @@ extends CharacterBody2D
 @onready var sb = StyleBoxFlat.new()
 
 var SPEED = 300.0
-var JUMP_VELOCITY = -400.0
+var JUMP_VELOCITY = -425.0
 var facing_left = true
 var health: float = 100
 
