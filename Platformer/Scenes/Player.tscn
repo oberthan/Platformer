@@ -167,8 +167,7 @@ limit_bottom = 0
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2.5, 2.5)
 sprite_frames = SubResource("SpriteFrames_e80uo")
-animation = &"Walk"
-frame_progress = 0.375943
+animation = &"Idle"
 
 [node name="ColliderBody" type="CollisionShape2D" parent="."]
 position = Vector2(-2, 9)

@@ -49,11 +49,11 @@ func _ready() -> void:
 	match player_role:
 		1:
 			print("Player 1 using Pink")
-			animation_sprite.sprite_frames = preload("res://Pink_Monster_Frames.tres")
+			animation_sprite.sprite_frames = preload("res://Resources/Pink_Monster_Frames.tres")
 			set_collision_mask_value(2, true)
 		_:
 			print("Player ", name," using Dude")
-			animation_sprite.sprite_frames = preload("res://Dude_Monster_Frames.tres")
+			animation_sprite.sprite_frames = preload("res://Resources/Dude_Monster_Frames.tres")
 			set_collision_mask_value(3, true)
 			scale = Vector2(1, 1.2)
 			JUMP_VELOCITY = -500

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://bal47bx4emcq5"]
+[gd_scene load_steps=13 format=4 uid="uid://bal47bx4emcq5"]
 
 [ext_resource type="Script" uid="uid://bs1653twkw87e" path="res://Scripts/Background.gd" id="1_0h7mo"]
 [ext_resource type="Script" uid="uid://5tf4xcg3vdc2" path="res://Scripts/Level.gd" id="1_hqns4"]
@@ -8,9 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://txao6pa83qtg" path="res://assetpack/parallax/forest/forest_mid.png" id="8_nr8wp"]
 [ext_resource type="Texture2D" uid="uid://c7wmh4sklo5on" path="res://assetpack/parallax/forest/forest_moon.png" id="9_d2bti"]
 [ext_resource type="Texture2D" uid="uid://c4t5racpmtfdn" path="res://assetpack/parallax/forest/forest_mountain.png" id="10_ta5nu"]
-[ext_resource type="TileSet" uid="uid://ds01y885blyr1" path="res://Ground.tres" id="11_4s4xf"]
+[ext_resource type="TileSet" uid="uid://ds01y885blyr1" path="res://Resources/Ground.tres" id="11_4s4xf"]
 [ext_resource type="Texture2D" uid="uid://spveuaws47cc" path="res://assetpack/parallax/forest/forest_short.png" id="11_flf07"]
 [ext_resource type="Texture2D" uid="uid://cw1c3j8q705vj" path="res://assetpack/parallax/forest/forest_sky.png" id="12_k73cj"]
+[ext_resource type="PackedScene" uid="uid://n82m4mysmsm5" path="res://Scenes/Enemy.tscn" id="13_ngxpw"]
 
 [node name="Level_1" type="Node2D"]
 script = ExtResource("1_hqns4")
@@ -83,3 +84,8 @@ tile_set = ExtResource("11_4s4xf")
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
 position = Vector2(291, 496)
+
+[node name="Enimies" type="Node" parent="."]
+
+[node name="Enemy" parent="Enimies" instance=ExtResource("13_ngxpw")]
+position = Vector2(511, 490)
