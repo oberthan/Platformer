@@ -17,24 +17,9 @@ func _ready():
 		start_server(1221, 2)
 
 func start_server(port, max_clients):
-	var key = CryptoKey.new()
-	var cert = X509Certificate.new()
-	
-	var key_path = "res://server.key"
-	var cert_path = "res://server.crt"
-	
-	#debug_load_key_cert(key_path, cert_path)
 
-	if not key.load(key_path):
-		print("Failed to load private key: %s" % key_path)
-
-	if not cert.load(cert_path):
-		print("Failed to load certificate: %s" % cert_path)
-	
-	var tls_opts = TLSOptions.server(key, cert)
-	
 	max_players = max_clients	
-	peer.create_server(port, "*", tls_opts)
+	peer.create_server(port)
 	multiplayer.multiplayer_peer = peer
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
@@ -80,7 +65,7 @@ func _on_peer_disconnected(id):
 		get_tree().change_scene_to_file("res://Scenes/Main.tscn")
 
 func start_client(ip, port):
-	peer.create_client(("wss://{ip}:{port}/".format({"ip":ip, "port":port})))
+	peer.create_client("wss://%s/" % [ip])
 	multiplayer.multiplayer_peer = peer
 
 func get_player_id():

@@ -8,12 +8,12 @@ func _ready():
 	container.add_child(ip_address_input)
 
 func _on_single_player_pressed() -> void:
-	Network.start_server(1221, 0)
+	Network.start_server(1221, 1)
 	Network.max_players = 1
 	Network._on_peer_connected(multiplayer.multiplayer_peer.get_unique_id())
 
 func _on_host_pressed() -> void:
-	Network.start_server(1221, 1)
+	Network.start_server(1221, 2)
 	Network._on_peer_connected(multiplayer.multiplayer_peer.get_unique_id())
 	# The server will automatically switch to the level when it's ready.
 
