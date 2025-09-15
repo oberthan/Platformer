@@ -63,6 +63,7 @@ func _ready() -> void:
 	sb.bg_color = Color("00ff00")
 
 var prev_animation = ""
+var prev_facing = false
 func _process(delta: float) -> void:
 	if health >= 100:
 		health_bar.hide()
@@ -131,8 +132,9 @@ func apply_server_input(p_inputs, delta):
 	else:
 		new_animation = "Jump"
 	
-	if new_animation != prev_animation:
+	if new_animation != prev_animation or facing_left != prev_facing:
 		prev_animation = new_animation
+		prev_facing = facing_left
 		rpc("update_animation", name, new_animation, facing_left)
 
 

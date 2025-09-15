@@ -1,14 +1,14 @@
 [gd_scene load_steps=12 format=4 uid="uid://bkxuc1ny4d5ee"]
 
-[ext_resource type="Script" uid="uid://5tf4xcg3vdc2" path="res://Level.gd" id="1_n8hyc"]
-[ext_resource type="PackedScene" uid="uid://chm8q361s8ydj" path="res://Player.tscn" id="2_eiivm"]
-[ext_resource type="Script" uid="uid://bs1653twkw87e" path="res://Background.gd" id="3_p4ecc"]
+[ext_resource type="Script" uid="uid://5tf4xcg3vdc2" path="res://Scripts/Level.gd" id="1_n8hyc"]
+[ext_resource type="PackedScene" uid="uid://chm8q361s8ydj" path="res://Scenes/Player.tscn" id="2_eiivm"]
+[ext_resource type="Script" uid="uid://bs1653twkw87e" path="res://Scripts/Background.gd" id="3_p4ecc"]
 [ext_resource type="Texture2D" uid="uid://cfg6eajvp6nvt" path="res://assetpack/parallax/moon/moon_sky.png" id="4_lgjvw"]
 [ext_resource type="Texture2D" uid="uid://b78om7dvduekt" path="res://assetpack/parallax/moon/moon_earth.png" id="5_n8hyc"]
 [ext_resource type="Texture2D" uid="uid://b727e5mx3uson" path="res://assetpack/parallax/moon/moon_back.png" id="6_eiivm"]
 [ext_resource type="Texture2D" uid="uid://b2l7bhulgni7n" path="res://assetpack/parallax/moon/moon_mid.png" id="7_p4ecc"]
 [ext_resource type="Texture2D" uid="uid://c3spn8o376uvb" path="res://assetpack/parallax/moon/moon_front.png" id="9_576va"]
-[ext_resource type="Texture2D" uid="uid://cb04g3t35xp26" path="res://Tileset_ground.png" id="11_hxl1v"]
+[ext_resource type="Texture2D" uid="uid://cb04g3t35xp26" path="res://Resources/Textures/Tileset_ground.png" id="11_hxl1v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0e48y"]
 texture = ExtResource("11_hxl1v")

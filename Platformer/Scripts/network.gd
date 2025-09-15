@@ -23,15 +23,13 @@ func start_server(port, max_clients):
 	var key_path = "res://server.key"
 	var cert_path = "res://server.crt"
 	
-	debug_load_key_cert(key_path, cert_path)
+	#debug_load_key_cert(key_path, cert_path)
 
 	if not key.load(key_path):
 		print("Failed to load private key: %s" % key_path)
-		return
 
 	if not cert.load(cert_path):
 		print("Failed to load certificate: %s" % cert_path)
-		return
 	
 	var tls_opts = TLSOptions.server(key, cert)
 	
@@ -69,7 +67,7 @@ func _on_peer_connected(id):
 	print("Player connected: %d. Total players: %d/%d" % [id, connected_players, max_players])
 	if connected_players >= max_players:
 		print("Max players reached. Starting game...")
-		rpc("switch_to_level", "res://Level_1.tscn")
+		rpc("switch_to_level", "res://Scenes/Levels/Level_1.tscn")
 
 func _on_peer_disconnected(id):
 	connected_players -= 1
@@ -79,7 +77,7 @@ func _on_peer_disconnected(id):
 		print("All players have disconnected. Resetting server.")
 		players.clear()
 		player_inputs.clear()
-		get_tree().change_scene_to_file("res://Main.tscn")
+		get_tree().change_scene_to_file("res://Scenes/Main.tscn")
 
 func start_client(ip, port):
 	peer.create_client(("wss://{ip}:{port}/".format({"ip":ip, "port":port})))

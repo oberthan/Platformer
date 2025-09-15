@@ -17,7 +17,7 @@ run/low_processor_mode_sleep_usec=3000
 
 [autoload]
 
-Network="*res://network.gd"
+Network="*res://Scripts/network.gd"
 
 [input]
 

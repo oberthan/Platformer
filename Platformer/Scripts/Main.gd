@@ -24,4 +24,4 @@ func _on_join_pressed() -> void:
 
 func _on_start_game_pressed():
 	if Network.is_server:
-		Network.rpc("switch_to_level", "res://Level_1.tscn")
+		Network.rpc("switch_to_level", "res://Scenes/Levels/Level_1.tscn")

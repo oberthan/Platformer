@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cb04g3t35xp26"
-path="res://.godot/imported/Tileset_ground.png-b5e83dc0d2f79f317987ba9049c9f82c.ctex"
+uid="uid://csfw3qklxido"
+path="res://.godot/imported/BlueFireBall_6.png-08919fd8864be1ef80ab18d3075fd30f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Tileset_ground.png"
-dest_files=["res://.godot/imported/Tileset_ground.png-b5e83dc0d2f79f317987ba9049c9f82c.ctex"]
+source_file="res://Resources/Textures/BlueFireBall_6.png"
+dest_files=["res://.godot/imported/BlueFireBall_6.png-08919fd8864be1ef80ab18d3075fd30f.ctex"]
 
 [params]
 
