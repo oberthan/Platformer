@@ -19,7 +19,7 @@ func _ready():
 				add_player(id)
 
 		multiplayer.peer_connected.connect(add_player)
-		multiplayer.peer_disconnected.connect(remove_player)
+		#multiplayer.peer_disconnected.connect(remove_player)
 
 # This function is only called on the server
 func add_player(id: int):
