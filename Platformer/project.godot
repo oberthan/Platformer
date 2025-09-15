@@ -20,6 +20,10 @@ boot_splash/image="uid://ceompiwc4eshq"
 
 Network="*res://Scripts/network.gd"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [input]
 
 right={
