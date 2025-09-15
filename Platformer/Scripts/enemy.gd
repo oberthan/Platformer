@@ -28,7 +28,7 @@ func _on_tree_changed(_n: Node) -> void:
 func _reacquire_target() -> void:
 
 	var best: Node2D = null
-	var dist = 0
+	var dist = 20 #Detection range
 
 	for id in Network.players:
 		var player = Network.players[id]
