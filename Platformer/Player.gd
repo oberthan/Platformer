@@ -72,8 +72,13 @@ func _process(delta: float) -> void:
 	health_bar.value = health
 	sb.bg_color = Color.from_hsv(max((health-25)/225.0, 0), 1, 1, 1)
 
+var coyote_timer = 0
+var coyote_time = 0.150
+
 func _physics_process(delta: float) -> void:
 	# The authoritative client sends its inputs to the server.
+	
+	
 	if is_multiplayer_authority():
 		inputs.left = Input.is_action_pressed("left")
 		inputs.right = Input.is_action_pressed("right")
@@ -95,9 +100,13 @@ func _physics_process(delta: float) -> void:
 func apply_server_input(p_inputs, delta):
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+		coyote_timer += delta
+	else:
+		coyote_timer = 0
 
-	if p_inputs.jump and is_on_floor():
+	if p_inputs.jump and coyote_timer < coyote_time:
 		velocity.y = JUMP_VELOCITY
+		coyote_timer += coyote_time
 
 	var direction = 0
 	if p_inputs.left:
