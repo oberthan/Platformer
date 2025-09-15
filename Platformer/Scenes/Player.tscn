@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://chm8q361s8ydj"]
+[gd_scene load_steps=25 format=3 uid="uid://chm8q361s8ydj"]
 
 [ext_resource type="Script" uid="uid://b6ef5epah5o5t" path="res://Scripts/Player.gd" id="1_xhfnw"]
 [ext_resource type="Texture2D" uid="uid://bhj26thtu8wwv" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Idle_4.png" id="2_cxr5p"]
@@ -150,10 +150,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wi0c6"]
-size = Vector2(16, 31)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_e80uo"]
-size = Vector2(14, 1)
+size = Vector2(16, 32.5)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cam")]
 script = ExtResource("1_xhfnw")
@@ -170,15 +167,9 @@ sprite_frames = SubResource("SpriteFrames_e80uo")
 animation = &"Idle"
 
 [node name="ColliderBody" type="CollisionShape2D" parent="."]
-position = Vector2(-2, 9)
+position = Vector2(-2, 7.5)
 scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_wi0c6")
-
-[node name="ColliderTop" type="CollisionShape2D" parent="."]
-position = Vector2(-1, -24)
-scale = Vector2(2, 2)
-shape = SubResource("RectangleShape2D_e80uo")
-one_way_collision = true
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 offset_left = -31.0

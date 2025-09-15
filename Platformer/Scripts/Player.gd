@@ -4,7 +4,6 @@ extends CharacterBody2D
 @export var player_role: int = 0
 @onready var animation_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collider_body: CollisionShape2D = $ColliderBody
-@onready var collider_top: CollisionShape2D = $ColliderTop
 @onready var health_bar: ProgressBar = $ProgressBar
 @onready var sb = StyleBoxFlat.new()
 
@@ -31,10 +30,8 @@ func _ready() -> void:
 	# Clients only need to simulate their own player.
 	if multiplayer.is_server():
 		collider_body.disabled = false
-		collider_top.disabled = false
 	else:
 		collider_body.disabled = !is_multiplayer_authority()
-		collider_top.disabled = is_multiplayer_authority()
 		set_collision_mask_value(1, is_multiplayer_authority())
 
 	cam.enabled = is_multiplayer_authority()
