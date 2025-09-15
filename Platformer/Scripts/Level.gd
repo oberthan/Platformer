@@ -19,7 +19,7 @@ func _ready():
 				add_player(id)
 
 		multiplayer.peer_connected.connect(add_player)
-		#multiplayer.peer_disconnected.connect(remove_player)
+		multiplayer.peer_disconnected.connect(remove_player)
 
 # This function is only called on the server
 func add_player(id: int):
@@ -29,6 +29,7 @@ func add_player(id: int):
 
 # This function is only called on the server
 func remove_player(id: int):
+	multiplayer.multiplayer_peer.close()
 	rpc("despawn_player_on_clients", id)
 
 @rpc("any_peer", "call_local")
@@ -45,11 +46,12 @@ func spawn_player_on_clients(id: int, role: int):
 
 @rpc("any_peer", "call_local")
 func despawn_player_on_clients(id: int):
-	if has_node(str(id)):
-		var player = get_node(str(id))
-		if multiplayer.is_server():
-			Network.unregister_player(id)
-		player.queue_free()
+	pass
+	#if has_node(str(id)):
+		#var player = get_node(str(id))
+		#if multiplayer.is_server():
+			#Network.unregister_player(id)
+		#player.queue_free()
 
 func _physics_process(delta):
 	if multiplayer.is_server():

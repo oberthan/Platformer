@@ -50,6 +50,7 @@ func _on_peer_connected(id):
 	connected_players += 1
 	player_inputs[connected_players] = {"left": false, "right": false, "jump": false} # Initialize inputs
 	print("Player connected: %d. Total players: %d/%d" % [id, connected_players, max_players])
+	
 	if connected_players >= max_players:
 		print("Max players reached. Starting game...")
 		rpc("switch_to_level", "res://Scenes/Levels/Level_1.tscn")
