@@ -19,7 +19,7 @@ func _on_host_pressed() -> void:
 
 func _on_join_pressed() -> void:
 	var ip = ip_address_input.text
-	Network.start_client(ip, 1221)
+	Network.start_client(ip)
 
 
 func _on_start_game_pressed():

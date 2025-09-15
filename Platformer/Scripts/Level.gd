@@ -34,15 +34,14 @@ func remove_player(id: int):
 @rpc("any_peer", "call_local")
 func spawn_player_on_clients(id: int, role: int):
 	var player = player_scene.instantiate()
-	player.name = str(role)
+	player.name = str(id)
 	player.position = spawn_point.position
 	player.player_role = role
 	print("Player has role ", role)
 	add_child(player)
-	player.add_to_group("players")
 	player.set_multiplayer_authority(id)
 	if multiplayer.is_server():
-		Network.register_player(id, player)
+		Network.register_player(role, player)
 
 @rpc("any_peer", "call_local")
 func despawn_player_on_clients(id: int):
