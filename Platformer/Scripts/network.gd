@@ -65,7 +65,7 @@ func _on_peer_disconnected(id):
 		get_tree().change_scene_to_file("res://Scenes/Main.tscn")
 
 func start_client(ip, port):
-	peer.create_client("wss://%s" % [ip, port])
+	peer.create_client("wss://%s/" % [ip])
 	multiplayer.multiplayer_peer = peer
 
 func get_player_id():
