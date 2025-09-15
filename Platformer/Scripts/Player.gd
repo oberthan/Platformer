@@ -84,7 +84,7 @@ func _physics_process(delta: float) -> void:
 		inputs.left = Input.is_action_pressed("left")
 		inputs.right = Input.is_action_pressed("right")
 		inputs.jump = Input.is_action_just_pressed("jump")
-		Network.rpc_id(1, "receive_player_input", name.to_int(), inputs)
+		Network.rpc_id(1, "receive_player_input", player_role, inputs)
 
 	# On clients, all player nodes (local and remote) are puppets.
 	# They just interpolate to the state received from the server.

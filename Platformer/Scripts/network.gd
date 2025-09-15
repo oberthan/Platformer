@@ -48,7 +48,7 @@ func debug_load_key_cert(key_path: String, cert_path: String) -> bool:
 
 func _on_peer_connected(id):
 	connected_players += 1
-	player_inputs[id] = {"left": false, "right": false, "jump": false} # Initialize inputs
+	player_inputs[connected_players] = {"left": false, "right": false, "jump": false} # Initialize inputs
 	print("Player connected: %d. Total players: %d/%d" % [id, connected_players, max_players])
 	if connected_players >= max_players:
 		print("Max players reached. Starting game...")
@@ -56,7 +56,7 @@ func _on_peer_connected(id):
 
 func _on_peer_disconnected(id):
 	connected_players -= 1
-	player_inputs.erase(id)
+	#player_inputs.erase(id)
 	print("Player disconnected: %d. Total players: %d/%d" % [id, connected_players, max_players])
 	if multiplayer.is_server() and connected_players == 0:
 		print("All players have disconnected. Resetting server.")
