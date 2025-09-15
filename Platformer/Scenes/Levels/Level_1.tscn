@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=4 uid="uid://bal47bx4emcq5"]
 
 [ext_resource type="Script" uid="uid://bs1653twkw87e" path="res://Scripts/Background.gd" id="1_0h7mo"]
-[ext_resource type="Script" uid="uid://5tf4xcg3vdc2" path="res://Scripts/Level.gd" id="1_hqns4"]
+[ext_resource type="Script" uid="uid://b5of1r04aqpn8" path="res://Scripts/Level.gd" id="1_hqns4"]
 [ext_resource type="PackedScene" uid="uid://chm8q361s8ydj" path="res://Scenes/Player.tscn" id="2_x0ka3"]
 [ext_resource type="Texture2D" uid="uid://s5eh4x2hqlhl" path="res://assetpack/parallax/forest/forest_back.png" id="6_x0ka3"]
 [ext_resource type="Texture2D" uid="uid://c1sh41531duqj" path="res://assetpack/parallax/forest/forest_long.png" id="7_0h7mo"]

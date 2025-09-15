@@ -26,29 +26,30 @@ func _on_tree_changed(_n: Node) -> void:
 		_reacquire_target()
 
 func _reacquire_target() -> void:
+
 	var best: Node2D = null
-	var best_d2 := INF
+	var dist = 0
+
 	for id in Network.players:
-		var p = Network.players[id]
-		if is_instance_valid(p) and p is Node2D:
-			var d2 = (p.global_position - global_position).length_squared()
-			if d2 < best_d2:
-				best_d2 = d2
-				best = p
+		var player = Network.players[id]
+		if is_instance_valid(player) and player is Node2D:
+			var distance = (player.global_position - global_position).length_squared()
+			if distance > dist:
+				dist = distance
+				best = player
+
 	_target = best
 
 func _physics_process(delta: float) -> void:
 	if not multiplayer.is_server():
 		return
-
-	if _target == null or not is_instance_valid(_target):
-		_reacquire_target()
+	
+	_reacquire_target()
 
 	var dir_x = 0.0
 	if _target:
 		var dx = _target.global_position.x - global_position.x
-		if abs(dx) > 1.0:
-			dir_x = sign(dx)
+		dir_x = sign(dx)
 
 	velocity.x = move_toward(velocity.x, speed * dir_x, acceleration * delta)
 
