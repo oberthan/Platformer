@@ -34,7 +34,7 @@ func _reacquire_target() -> void:
 		var player = Network.players[id]
 		if is_instance_valid(player) and player is Node2D:
 			var distance = (player.global_position - global_position).length_squared()
-			if distance > dist:
+			if distance < dist:
 				dist = distance
 				best = player
 
