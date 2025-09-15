@@ -164,6 +164,15 @@ texture = ExtResource("1_vanee")
 13:3/next_alternative_id = 2
 13:3/0 = 0
 13:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+8:7/0 = 0
+8:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, -3.23746, -8, -3.0576)
+9:7/0 = 0
+9:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, -3.23746, -8, -3.0576)
+10:7/0 = 0
+10:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, -3.23746, -8, -3.0576)
+11:7/0 = 0
+12:7/0 = 0
+13:7/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ypkap"]
 texture = ExtResource("2_vanee")
