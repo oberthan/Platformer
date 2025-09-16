@@ -10,9 +10,12 @@ extends CharacterBody2D
 @onready var hitbox: CollisionShape2D = $Area2D/hitbox
 @onready var area_2d: Area2D = $Area2D
 
+@onready var health_bar: ProgressBar = $ProgressBar
+@onready var sb = StyleBoxFlat.new()
+
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
-
+var health: float = 59
 
 var _target: Node2D = null
 
@@ -33,10 +36,20 @@ func _ready() -> void:
 	area_2d.monitoring = false
 
 	_play_anim_from_velocity()
+	
+	health_bar.add_theme_stylebox_override("fill", sb)
+	sb.bg_color = Color("00ff00")
 
-func _on_tree_changed(_n: Node) -> void:
-	if multiplayer.is_server():
-		_reacquire_target()
+func decrease_health(amount):
+	health -= amount
+
+func _process(delta):
+	if health >= 100:
+		health_bar.hide()
+	else:
+		health_bar.show()
+	health_bar.value = health
+	sb.bg_color = Color.from_hsv(max((health-25)/225.0, 0), 1, 1, 1)
 
 func _reacquire_target() -> void:
 

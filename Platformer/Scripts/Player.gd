@@ -61,6 +61,7 @@ func _ready() -> void:
 
 var prev_animation = ""
 var prev_facing = false
+
 func _process(delta: float) -> void:
 	if health >= 100:
 		health_bar.hide()
