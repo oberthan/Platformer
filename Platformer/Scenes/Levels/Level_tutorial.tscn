@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://bla0csfqji0sp"]
+[gd_scene load_steps=13 format=4 uid="uid://bal47bx4emcq5"]
 
 [ext_resource type="Script" uid="uid://b5of1r04aqpn8" path="res://Scripts/Level.gd" id="1_cdhuc"]
 [ext_resource type="PackedScene" uid="uid://chm8q361s8ydj" path="res://Scenes/Player.tscn" id="2_to0hn"]
@@ -13,7 +13,7 @@
 [ext_resource type="TileSet" uid="uid://ds01y885blyr1" path="res://Resources/Ground.tres" id="11_l1wyn"]
 [ext_resource type="PackedScene" uid="uid://n82m4mysmsm5" path="res://Scenes/Enemy.tscn" id="12_l27g4"]
 
-[node name="Level_1" type="Node2D"]
+[node name="Level_2" type="Node2D"]
 script = ExtResource("1_cdhuc")
 player_scene = ExtResource("2_to0hn")
 
