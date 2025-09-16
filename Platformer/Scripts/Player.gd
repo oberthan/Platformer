@@ -3,6 +3,8 @@ extends CharacterBody2D
 @export var cam = Camera2D
 @export var player_role: int = 0
 @onready var animation_tree: AnimationTree = $AnimationTree
+@onready var sprite_2d: Sprite2D = $Sprite2D
+
 @onready var collider_body: CollisionShape2D = $ColliderBody
 @onready var health_bar: ProgressBar = $ProgressBar
 @onready var sb = StyleBoxFlat.new()
@@ -46,11 +48,11 @@ func _ready() -> void:
 	match player_role:
 		1:
 			print("Player 1 using Pink")
-			#animation_sprite.sprite_frames = preload("res://Resources/Pink_Monster_Frames.tres")
+			sprite_2d.texture = load("res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Sheet.png")
 			set_collision_mask_value(2, true)
 		_:
 			print("Player ", name," using Dude")
-			#animation_sprite.sprite_frames = preload("res://Resources/Dude_Monster_Frames.tres")
+			sprite_2d.texture = load("res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/3 Dude_Monster/Dude_Monster_sheet.png")
 			set_collision_mask_value(3, true)
 			scale = Vector2(1, 1.2)
 			JUMP_VELOCITY = -500
