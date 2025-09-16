@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://n82m4mysmsm5"]
+[gd_scene load_steps=56 format=3 uid="uid://n82m4mysmsm5"]
 
 [ext_resource type="Texture2D" uid="uid://di5tbj02670aa" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Idle.png" id="1_m1htj"]
 [ext_resource type="Script" uid="uid://ba6ll0y42t54c" path="res://Scripts/enemy.gd" id="1_mo1ky"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://blt78x8du0lqh" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Die.png" id="3_uoxpr"]
 [ext_resource type="Texture2D" uid="uid://cabkkerd4cya2" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Hit.png" id="4_idouy"]
 [ext_resource type="Texture2D" uid="uid://eg5l7r0n5o3o" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Run.png" id="6_0o0ue"]
+[ext_resource type="Script" uid="uid://cjl0les6dhfqg" path="res://Scenes/area_2d.gd" id="7_uoxpr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6s1gy"]
 atlas = ExtResource("2_6bs3c")
@@ -220,7 +221,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0vprv")
 }],
-"loop": false,
+"loop": true,
 "name": &"attack",
 "speed": 10.0
 }, {
@@ -370,16 +371,8 @@ position = Vector2(0, 15.5)
 shape = SubResource("RectangleShape2D_uoxpr")
 
 [node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("7_uoxpr")
 
 [node name="hitbox" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(-26, 21)
 shape = SubResource("RectangleShape2D_mo1ky")
-
-[node name="ProgressBar" type="ProgressBar" parent="."]
-offset_left = -16.0
-offset_top = -10.0
-offset_right = 17.0
-offset_bottom = -6.0
-step = 0.1
-value = 44.8
-show_percentage = false

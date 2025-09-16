@@ -61,6 +61,7 @@ func _ready() -> void:
 
 var prev_vel = Vector2.ZERO
 var prev_facing = false
+
 func _process(delta: float) -> void:
 	if health >= 100:
 		health_bar.hide()
@@ -137,6 +138,8 @@ func apply_server_input(p_inputs, delta):
 		decrease_health(35)
 
 	rpc("update_client_state", position, velocity)
+
+
 
 func decrease_health(amount):
 	health -= amount

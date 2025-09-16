@@ -7,6 +7,15 @@ extends CharacterBody2D
 @export var run_threshold: float = 10.0 
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
+@onready var hitbox: CollisionShape2D = $Area2D/hitbox
+@onready var area_2d: Area2D = $Area2D
+
+@onready var health_bar: ProgressBar = $ProgressBar
+@onready var sb = StyleBoxFlat.new()
+
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+
+var health: float = 59
 
 var _target: Node2D = null
 
@@ -19,16 +28,33 @@ func _ready() -> void:
 		get_tree().connect("node_added", Callable(self, "_on_tree_changed"))
 		get_tree().connect("node_removed", Callable(self, "_on_tree_changed"))
 
-	_play_anim_from_velocity()
+		animated_sprite_2d.animation_finished.connect(_attack_animation_finished)
+		area_2d.body_entered.connect(_on_attack_area_body_entered)
+		animated_sprite_2d.frame_changed.connect(_on_frame_changed)
+		
+	hitbox.disabled = true
+	area_2d.monitoring = false
 
-func _on_tree_changed(_n: Node) -> void:
-	if multiplayer.is_server():
-		_reacquire_target()
+	_play_anim_from_velocity()
+	
+	health_bar.add_theme_stylebox_override("fill", sb)
+	sb.bg_color = Color("00ff00")
+
+func decrease_health(amount):
+	health -= amount
+
+func _process(delta):
+	if health >= 100:
+		health_bar.hide()
+	else:
+		health_bar.show()
+	health_bar.value = health
+	sb.bg_color = Color.from_hsv(max((health-25)/225.0, 0), 1, 1, 1)
 
 func _reacquire_target() -> void:
 
 	var best: Node2D = null
-	var dist = 50000 #Detection range
+	var dist = 100000 #Detection range
 
 	for id in Network.players:
 		var player = Network.players[id]
@@ -48,13 +74,23 @@ func _physics_process(delta: float) -> void:
 
 	var dir_x = 0.0
 	if _target:
-		var dx = _target.global_position.x - global_position.x
-		dir_x = sign(dx)
+		var distance = (_target.global_position - global_position).length_squared()
+		if distance < 7500:
+			velocity.x = 0
+			attacking = true
+		
+		else:
+			var dx = _target.global_position.x - global_position.x
+			dir_x = sign(dx)
 
-	velocity.x = move_toward(velocity.x, speed * dir_x, acceleration * delta)
+			velocity.x = move_toward(velocity.x, speed * dir_x, acceleration * delta)
+
 
 	if not is_on_floor():
 		velocity.y = min(velocity.y + gravity * delta, max_fall_speed)
+
+	if attacking:
+		velocity.x = 0
 
 	move_and_slide()
 
@@ -75,12 +111,48 @@ func _play_anim_from_velocity() -> void:
 		return
 
 	var target_anim = "idle"
+
+	if attacking:
+		if anim.animation != "attack" or not anim.is_playing():
+			anim.play("attack")
+		return
+
 	if abs(velocity.x) >= run_threshold:
 		target_anim = "run"
 
 	if abs(velocity.x) >= 1.0:
-		anim.flip_h = velocity.x > 0.0
+		if velocity.x > 0:
+			anim.flip_h = true
+			hitbox.position.x = 25
+		else:
+			anim.flip_h = false
+			hitbox.position.x = -25
 
 	# Only switch if changed
 	if anim.animation != target_anim or not anim.is_playing():
 		anim.play(target_anim)
+
+var attacking = false
+
+func _on_attack_area_body_entered(body: Node) -> void:
+	if body.is_in_group("players"):
+		attacking = true
+		body.velocity += (body.global_position - global_position) * 20
+		body.decrease_health(10)
+		hitbox.disabled = true
+		area_2d.monitoring = false
+
+func _attack_animation_finished():
+	attacking = false
+	hitbox.disabled = true
+	area_2d.monitoring = false
+		
+func _on_frame_changed():
+	if animated_sprite_2d.animation == "attack":
+		if animated_sprite_2d.frame == 5:
+			hitbox.disabled = false
+			area_2d.monitoring = true
+		elif animated_sprite_2d.frame == 8:
+			hitbox.disabled = true
+			area_2d.monitoring = false
+			
