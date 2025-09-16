@@ -32,7 +32,7 @@ func _ready() -> void:
 		area_2d.body_entered.connect(_on_attack_area_body_entered)
 		animated_sprite_2d.frame_changed.connect(_on_frame_changed)
 		
-	hitbox.disabled = true
+	hitbox.set_deferred("disabled", true)
 	area_2d.set_deferred("monitoring", false)
 
 	_play_anim_from_velocity()
@@ -139,20 +139,20 @@ func _on_attack_area_body_entered(body: Node) -> void:
 		attacking = true
 		body.velocity += (body.global_position - global_position) * 20
 		body.decrease_health(10)
-		hitbox.disabled = true
+		hitbox.set_deferred("disabled", true)
 		area_2d.set_deferred("monitoring", false)
 
 func _attack_animation_finished():
 	attacking = false
-	hitbox.disabled = true
+	hitbox.set_deferred("disabled", true)
 	area_2d.set_deferred("monitoring", false)
 		
 func _on_frame_changed():
 	if animated_sprite_2d.animation == "attack":
 		if animated_sprite_2d.frame == 5:
-			hitbox.disabled = false
+			hitbox.set_deferred("disabled", false)
 			area_2d.set_deferred("monitoring", true)
 		elif animated_sprite_2d.frame == 8:
-			hitbox.disabled = true
+			hitbox.set_deferred("disabled", true)
 			area_2d.set_deferred("monitoring", false)
 			
