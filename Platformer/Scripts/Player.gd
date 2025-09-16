@@ -143,6 +143,8 @@ func apply_server_input(p_inputs, delta):
 
 	rpc("update_client_state", position, velocity)
 
+
+
 func decrease_health(amount):
 	health -= amount
 	rpc("update_health", name, health)
