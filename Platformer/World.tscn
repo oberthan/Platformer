@@ -1,0 +1,5 @@
+[gd_scene load_steps=0 format=3 uid="uid://cnrcvo4gc7e7f"]
+
+[node name="World" type="Node2D"]
+
+[node name="Players" type="Node2D" parent="."]

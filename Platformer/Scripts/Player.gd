@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var cam = Camera2D
 @export var player_role: int = 0
-@onready var animation_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animation_tree: AnimationTree = $AnimationTree
 @onready var collider_body: CollisionShape2D = $ColliderBody
 @onready var health_bar: ProgressBar = $ProgressBar
 @onready var sb = StyleBoxFlat.new()
@@ -46,11 +46,11 @@ func _ready() -> void:
 	match player_role:
 		1:
 			print("Player 1 using Pink")
-			animation_sprite.sprite_frames = preload("res://Resources/Pink_Monster_Frames.tres")
+			#animation_sprite.sprite_frames = preload("res://Resources/Pink_Monster_Frames.tres")
 			set_collision_mask_value(2, true)
 		_:
 			print("Player ", name," using Dude")
-			animation_sprite.sprite_frames = preload("res://Resources/Dude_Monster_Frames.tres")
+			#animation_sprite.sprite_frames = preload("res://Resources/Dude_Monster_Frames.tres")
 			set_collision_mask_value(3, true)
 			scale = Vector2(1, 1.2)
 			JUMP_VELOCITY = -500
@@ -59,7 +59,7 @@ func _ready() -> void:
 	health_bar.add_theme_stylebox_override("fill", sb)
 	sb.bg_color = Color("00ff00")
 
-var prev_animation = ""
+var prev_vel = Vector2.ZERO
 var prev_facing = false
 func _process(delta: float) -> void:
 	if health >= 100:
@@ -94,6 +94,7 @@ func _physics_process(delta: float) -> void:
 				position = position.lerp(server_position, 0.2)
 			move_and_slide()
 
+
 # This function is only ever executed on the server.
 func apply_server_input(p_inputs, delta):
 	if not is_on_floor():
@@ -108,31 +109,26 @@ func apply_server_input(p_inputs, delta):
 
 	var direction = 0
 	if p_inputs.left:
-		direction = -1
-	elif p_inputs.right:
-		direction = 1
+		direction += -1
+	if p_inputs.right:
+		direction += 1
 		
 	if direction:
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-	facing_left = velocity.x < 0
+	facing_left = velocity.x < 0 
+	facing_left = prev_facing if velocity.x == 0 else facing_left
 	
 	move_and_slide()
 	
 	# Server-authoritative animation logic
-	var new_animation = ""
-	if velocity == Vector2.ZERO:
-		new_animation = "Idle"
-	elif is_on_floor():
-		new_animation = "Walk"
-	else:
-		new_animation = "Jump"
+
 	
-	if new_animation != prev_animation or facing_left != prev_facing:
-		prev_animation = new_animation
+	if velocity != prev_vel or facing_left != prev_facing:
+		prev_vel = velocity
 		prev_facing = facing_left
-		rpc("update_animation", name, new_animation, facing_left)
+		rpc("update_animation", name, velocity, is_on_floor(), facing_left)
 
 
 	if position.y > 1000:
@@ -156,12 +152,22 @@ func update_client_state(p_position, p_velocity):
 		velocity = server_velocity
 
 @rpc("any_peer", "call_local")
-func update_animation(id, animationName, flip):
+func update_animation(id, player_velocity, on_floor, flip):
 	if name == id:
-		animation_sprite.set_flip_h(flip)
-		animation_sprite.play(animationName)
+		var walking = player_velocity.x != 0 and on_floor
+		animation_tree["parameters/conditions/idle"] = !walking
+		animation_tree["parameters/conditions/is_walking"] = walking
+		animation_tree["parameters/conditions/jump"] = player_velocity.y == JUMP_VELOCITY
+				
+		animation_tree["parameters/Idle/blend_position"] = -1 if flip else 1
+		animation_tree["parameters/Jump/blend_position"] = -1 if flip else 1
+		animation_tree["parameters/Walk/blend_position"] = -1 if flip else 1
+		
+		
 
 @rpc("any_peer", "call_local")
 func update_health(id, hp):
 	if name == id:
 		health = hp
+		
+		
