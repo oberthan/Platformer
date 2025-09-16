@@ -1,10 +1,12 @@
-[gd_scene load_steps=50 format=3 uid="uid://chm8q361s8ydj"]
+[gd_scene load_steps=52 format=3 uid="uid://chm8q361s8ydj"]
 
 [ext_resource type="Script" uid="uid://b6ef5epah5o5t" path="res://Scripts/Player.gd" id="1_xhfnw"]
 [ext_resource type="Texture2D" uid="uid://bhj26thtu8wwv" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Idle_4.png" id="2_cxr5p"]
 [ext_resource type="Texture2D" uid="uid://c4m1emyqidtmn" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Jump_8.png" id="3_tdg3f"]
 [ext_resource type="Texture2D" uid="uid://dmu8gohf2a0aa" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Walk_6.png" id="4_dtqjt"]
 [ext_resource type="AudioStream" uid="uid://dq04rml7iay3s" path="res://Resources/Sounds/very-lush-and-swag-loop-74140.mp3" id="5_5ixxa"]
+[ext_resource type="Texture2D" uid="uid://br6h13iqu3aya" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Sheet.png" id="5_52ee3"]
+[ext_resource type="Texture2D" uid="uid://bkxgtquprto47" path="res://Resources/Textures/2d_lights_and_shadows_neutral_point_light.webp" id="7_bhhdu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ir8iy"]
 atlas = ExtResource("2_cxr5p")
@@ -451,6 +453,7 @@ animation = &"Idle"
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(1, 0)
 scale = Vector2(2.5, 2.5)
+texture = ExtResource("5_52ee3")
 flip_h = true
 hframes = 8
 vframes = 10
@@ -490,3 +493,10 @@ parameters/conditions/jump = false
 parameters/Idle/blend_position = 0.0
 parameters/Jump/blend_position = 0
 parameters/Walk/blend_position = 0
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(1, 1)
+energy = 0.24
+shadow_enabled = true
+texture = ExtResource("7_bhhdu")
+texture_scale = 1.3

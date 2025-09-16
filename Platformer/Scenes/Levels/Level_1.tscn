@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://xp50d56qik0a"]
+[gd_scene load_steps=14 format=4 uid="uid://bal47bx4emcq5"]
 
 [ext_resource type="Script" uid="uid://b5of1r04aqpn8" path="res://Scripts/Level.gd" id="1_jkw7r"]
 [ext_resource type="PackedScene" uid="uid://chm8q361s8ydj" path="res://Scenes/Player.tscn" id="2_avjic"]
@@ -12,8 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://spveuaws47cc" path="res://assetpack/parallax/forest/forest_short.png" id="10_wg02j"]
 [ext_resource type="TileSet" uid="uid://ds01y885blyr1" path="res://Resources/Ground.tres" id="11_b81ri"]
 [ext_resource type="PackedScene" uid="uid://n82m4mysmsm5" path="res://Scenes/Enemy.tscn" id="12_vmolf"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nlqrh"]
+[ext_resource type="Texture2D" uid="uid://bkxgtquprto47" path="res://Resources/Textures/2d_lights_and_shadows_neutral_point_light.webp" id="13_8nmnw"]
 
 [node name="Level_1" type="Node2D"]
 script = ExtResource("1_jkw7r")
@@ -93,9 +92,21 @@ position = Vector2(291, 496)
 position = Vector2(56, 362)
 scale = Vector2(2.5, 2.5)
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(1279, 237)
-range_z_min = -4096
-range_z_max = 4096
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+position = Vector2(1420, 211)
+color = Color(0.136826, 0.136826, 0.136826, 1)
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+position = Vector2(1451, 294)
+rotation = -0.888373
+energy = 1.46
 shadow_enabled = true
-texture = SubResource("CompressedTexture2D_nlqrh")
+shadow_color = Color(0.165656, 0.165656, 0.165656, 0)
+shadow_filter = 2
+shadow_filter_smooth = 5.2
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(1317, 174)
+shadow_enabled = true
+texture = ExtResource("13_8nmnw")
+texture_scale = 1.9

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://bal47bx4emcq5"]
+[gd_scene load_steps=13 format=4 uid="uid://ca4qcbp2s4ee"]
 
 [ext_resource type="Script" uid="uid://b5of1r04aqpn8" path="res://Scripts/Level.gd" id="1_cdhuc"]
 [ext_resource type="PackedScene" uid="uid://chm8q361s8ydj" path="res://Scenes/Player.tscn" id="2_to0hn"]
@@ -90,3 +90,16 @@ position = Vector2(291, 496)
 [node name="Enemy" parent="Enimies" instance=ExtResource("12_l27g4")]
 position = Vector2(508, 384)
 scale = Vector2(2.5, 2.5)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+position = Vector2(1420, 211)
+color = Color(0.136826, 0.136826, 0.136826, 1)
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+position = Vector2(1451, 294)
+rotation = -0.42586
+energy = 0.25
+shadow_enabled = true
+shadow_color = Color(0.165656, 0.165656, 0.165656, 0)
+shadow_filter = 2
+shadow_filter_smooth = 0.9
