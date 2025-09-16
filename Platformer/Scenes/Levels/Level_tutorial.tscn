@@ -93,7 +93,7 @@ scale = Vector2(2.5, 2.5)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 position = Vector2(1420, 211)
-color = Color(0.136826, 0.136826, 0.136826, 1)
+color = Color(0.137255, 0.137255, 0.309804, 1)
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
 position = Vector2(1451, 294)

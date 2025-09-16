@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://chm8q361s8ydj"]
+[gd_scene load_steps=53 format=3 uid="uid://chm8q361s8ydj"]
 
 [ext_resource type="Script" uid="uid://b6ef5epah5o5t" path="res://Scripts/Player.gd" id="1_xhfnw"]
 [ext_resource type="Texture2D" uid="uid://bhj26thtu8wwv" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Idle_4.png" id="2_cxr5p"]
@@ -151,6 +151,9 @@ animations = [{
 "name": &"Walk",
 "speed": 10.0
 }]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_52ee3"]
+light_mode = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wi0c6"]
 size = Vector2(16, 32.5)
@@ -451,6 +454,7 @@ sprite_frames = SubResource("SpriteFrames_e80uo")
 animation = &"Idle"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_52ee3")
 position = Vector2(1, 0)
 scale = Vector2(2.5, 2.5)
 texture = ExtResource("5_52ee3")
@@ -496,7 +500,7 @@ parameters/Walk/blend_position = 0
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 position = Vector2(1, 1)
-energy = 0.24
+energy = 0.14
 shadow_enabled = true
 texture = ExtResource("7_bhhdu")
-texture_scale = 1.3
+texture_scale = 1.78
