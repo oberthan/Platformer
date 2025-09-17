@@ -142,8 +142,7 @@ func _check_attack_landed():
 
 func bounce_on_head(body: Node2D):
 	print(body, " entered")
-	if body is CharacterBody2D:
-		print("Character Body")
-		if body.velocity.y >0:
+	if body.is_in_group("players"):
+		if body.prev_vel.y >0:
 			print("Boing")
-			body.velocity.y *= -1
+			body.velocity.y = body.prev_vel.y * -1
