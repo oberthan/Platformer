@@ -19,6 +19,9 @@ var health: float = 59
 
 var _target: Node2D = null
 
+var attacking = false
+
+
 func _ready() -> void:
 	set_multiplayer_authority(1)
 	set_physics_process(multiplayer.is_server())
@@ -132,7 +135,6 @@ func _play_anim_from_velocity() -> void:
 	if anim.animation != target_anim or not anim.is_playing():
 		anim.play(target_anim)
 
-var attacking = false
 
 func _on_attack_area_body_entered(body: Node) -> void:
 	if body.is_in_group("players"):
