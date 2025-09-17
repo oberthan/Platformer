@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://chm8q361s8ydj"]
+[gd_scene load_steps=74 format=3 uid="uid://chm8q361s8ydj"]
 
 [ext_resource type="Script" uid="uid://b6ef5epah5o5t" path="res://Scripts/Player.gd" id="1_xhfnw"]
 [ext_resource type="Texture2D" uid="uid://bhj26thtu8wwv" path="res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Idle_4.png" id="2_cxr5p"]
@@ -430,7 +430,17 @@ _data = {
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_52ee3"]
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bhhdu"]
+animation = &"Attack_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ksbbd"]
+animation = &"Attack_right"
+
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_megsn"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_bhhdu")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_ksbbd")
+blend_point_1/pos = 1.0
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_yoq75"]
 
@@ -631,7 +641,7 @@ parameters/Attack/conditions/idle = false
 parameters/Attack/conditions/is_walking = false
 parameters/Attack/conditions/throw_attack = false
 parameters/Attack/Hit/blend_position = 0
-parameters/Attack/Standing/blend_position = 0
+parameters/Attack/Standing/blend_position = -0.732836
 parameters/Attack/Throw/blend_position = 0
 parameters/Attack/Walking/blend_position = 0
 parameters/Idle/blend_position = 0.0

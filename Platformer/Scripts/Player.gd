@@ -167,6 +167,10 @@ func update_animation(id, player_velocity, on_floor, flip, attack):
 		animation_tree["parameters/conditions/is_walking"] = walking
 		animation_tree["parameters/conditions/jump"] = player_velocity.y == JUMP_VELOCITY
 		animation_tree["parameters/conditions/attack"] = attack
+		animation_tree["parameters/Attack/conditions/hit_attack"] = attack
+		animation_tree["parameters/Attack/conditions/idle"] = !walking
+		animation_tree["parameters/Attack/conditions/is_walking"] = walking
+		
 		
 		#Movement
 		animation_tree["parameters/Idle/blend_position"] = -1 if flip else 1
