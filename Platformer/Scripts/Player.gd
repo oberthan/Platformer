@@ -124,14 +124,6 @@ func apply_server_input(p_inputs, delta):
 	facing_left = velocity.x < 0 
 	facing_left = prev_facing if velocity.x == 0 else facing_left
 	
-	var attack = ""
-	var cooldown = 1
-	cooldown -= delta
-	
-	if p_inputs.attack and cooldown <= 1:
-		attack = "attack"
-		cooldown = 1
-		
 	
 	move_and_slide()
 	
@@ -141,7 +133,7 @@ func apply_server_input(p_inputs, delta):
 	if velocity != prev_vel or facing_left != prev_facing:
 		prev_vel = velocity
 		prev_facing = facing_left
-		rpc("update_animation", name, velocity, is_on_floor(), facing_left)
+		rpc("update_animation", name, velocity, is_on_floor(), facing_left, p_inputs.attack)
 
 
 	if position.y > 1000:
@@ -173,11 +165,17 @@ func update_animation(id, player_velocity, on_floor, flip, attack):
 		animation_tree["parameters/conditions/idle"] = !walking
 		animation_tree["parameters/conditions/is_walking"] = walking
 		animation_tree["parameters/conditions/jump"] = player_velocity.y == JUMP_VELOCITY
-		animation_tree["parameters/conditions/attack"] = attack == "attack"
-				
+		animation_tree["parameters/conditions/attack"] = attack
+		
+		#Movement
 		animation_tree["parameters/Idle/blend_position"] = -1 if flip else 1
 		animation_tree["parameters/Jump/blend_position"] = -1 if flip else 1
 		animation_tree["parameters/Walk/blend_position"] = -1 if flip else 1
+		
+		#Attack
+		animation_tree["parameters/Attack/Standing/blend_position"] = -1 if flip else 1
+		animation_tree["parameters/Attack/Throw/blend_position"] = -1 if flip else 1
+		animation_tree["parameters/Attack/Walking/blend_position"] = -1 if flip else 1
 		
 		
 		
