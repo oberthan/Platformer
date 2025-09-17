@@ -134,7 +134,7 @@ func apply_server_input(p_inputs, delta):
 	if velocity != prev_vel or facing_left != prev_facing:
 		prev_vel = velocity
 		prev_facing = facing_left
-		rpc("update_animation", name, velocity, is_on_floor(), facing_left, p_inputs.attack)
+		rpc("update_animation", name, velocity, is_on_floor(), facing_left, p_inputs.attack1)
 
 
 	if position.y > 1000:

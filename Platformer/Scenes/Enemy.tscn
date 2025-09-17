@@ -529,7 +529,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("2_6bs3c")]
+"values": [ExtResource("1_m1htj")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -611,7 +611,7 @@ _data = {
 script = ExtResource("1_mo1ky")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_6bs3c")
+texture = ExtResource("1_m1htj")
 hframes = 7
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
