@@ -48,7 +48,7 @@ func debug_load_key_cert(key_path: String, cert_path: String) -> bool:
 
 func _on_peer_connected(id):
 	connected_players += 1
-	player_inputs[connected_players] = {"left": false, "right": false, "jump": false} # Initialize inputs
+	player_inputs[connected_players] = {"left": false, "right": false, "jump": false, "attack1": false} # Initialize inputs
 	print("Player connected: %d. Total players: %d/%d" % [id, connected_players, max_players])
 	
 	if connected_players >= max_players:
@@ -94,8 +94,8 @@ func receive_player_input(id, inputs):
 		# should be overwritten, but single-press actions (like jump) should be merged.
 		if inputs.jump:
 			player_inputs[id].jump = true
-		if inputs.attack:
-			player_inputs[id].attack = true
+		if inputs.attack1:
+			player_inputs[id].attack1 = true
 		
 		player_inputs[id].left = inputs.left
 		player_inputs[id].right = inputs.right
