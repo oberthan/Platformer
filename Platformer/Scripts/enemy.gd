@@ -71,8 +71,6 @@ func _physics_process(delta: float) -> void:
 		var distance = (_target.global_position - global_position).length_squared()
 		if distance < 7500:
 			velocity.x = 0
-			attacking = true
-		
 		else:
 			var dx = _target.global_position.x - global_position.x
 			dir_x = sign(dx)
@@ -141,3 +139,11 @@ func _check_attack_landed():
 		if body.is_in_group("players"):
 			body.velocity += (body.global_position - global_position) * 20
 			body.decrease_health(10)
+
+func bounce_on_head(body: Node2D):
+	print(body, " entered")
+	if body is CharacterBody2D:
+		print("Character Body")
+		if body.velocity.y >0:
+			print("Boing")
+			body.velocity.y *= -1

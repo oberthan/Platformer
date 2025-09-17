@@ -13,7 +13,7 @@ var SPEED = 300.0
 var JUMP_VELOCITY = -425.0
 var facing_left = true
 var health: float = 100
-var id = 1
+var player_id = 1
 
 var inputs = {
 	"left": false,
@@ -113,7 +113,7 @@ func change_player(playerid):
 			scale = Vector2(1, 1.2)
 			JUMP_VELOCITY = -500
 			SPEED = 350
-			id = 2
+			player_id = 2
 		else:
 			print("changed to player 1")
 			sprite_2d.texture = load("res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Sheet.png")
@@ -121,7 +121,7 @@ func change_player(playerid):
 			scale = Vector2(1, 1)
 			JUMP_VELOCITY = -425
 			SPEED = 300
-			id = 1
+			player_id = 1
 
 # This function is only ever executed on the server.
 func apply_server_input(p_inputs, delta):
@@ -132,7 +132,7 @@ func apply_server_input(p_inputs, delta):
 		coyote_timer = 0
 		
 	if p_inputs.switch:
-		change_player(id)	
+		change_player(player_id)	
 	
 	if p_inputs.jump and coyote_timer < coyote_time:
 		velocity.y = JUMP_VELOCITY
