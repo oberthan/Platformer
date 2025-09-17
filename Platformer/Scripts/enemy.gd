@@ -48,7 +48,7 @@ func _process(delta):
 	health_bar.value = health
 	sb.bg_color = Color.from_hsv(max((health-25)/225.0, 0), 1, 1, 1)
 
-@export var detection_range = 100000
+@export var detection_range = 350
 func _reacquire_target() -> void:
 
 	var best: Node2D = null
@@ -57,11 +57,11 @@ func _reacquire_target() -> void:
 	for id in Network.players:
 		var player = Network.players[id]
 		if is_instance_valid(player) and player is Node2D:
-			var distance = (player.global_position - global_position).length_squared()
+			var distance = player.global_position.distance_to(global_position)
 			if distance < dist:
 				dist = distance
 				best = player
-
+				
 	_target = best
 
 func _physics_process(delta: float) -> void:
@@ -88,7 +88,7 @@ func _physics_process(delta: float) -> void:
 
 		else:
 			state = State.IDLE
-			print("Outside detection range")
+			
 			
 		
 		match state:
@@ -106,6 +106,9 @@ func _physics_process(delta: float) -> void:
 
 			State.ATTACKING:
 				velocity.x = 0
+	else:
+		state = State.IDLE
+		velocity.x = 0
 
 	move_and_slide()
 

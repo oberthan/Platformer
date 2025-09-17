@@ -613,7 +613,7 @@ texture_scale = 1.78
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_52ee3")
-volume_db = -11.556
+volume_db = -21.488
 autoplay = true
 parameters/looping = true
 
