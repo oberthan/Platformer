@@ -6,20 +6,18 @@ extends CharacterBody2D
 @export var max_fall_speed: float = 1800.0
 @export var run_threshold: float = 10.0 
 
-@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
-@onready var hitbox: CollisionShape2D = $Area2D/hitbox
+@onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var area_2d: Area2D = $Area2D
 
 @onready var health_bar: ProgressBar = $ProgressBar
 @onready var sb = StyleBoxFlat.new()
 
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 var health: float = 59
 
 var _target: Node2D = null
 
-var attacking = false
+@export var attacking = false
 
 
 func _ready() -> void:
@@ -27,16 +25,8 @@ func _ready() -> void:
 	set_physics_process(multiplayer.is_server())
 
 	if multiplayer.is_server():
-		_reacquire_target()
-		get_tree().connect("node_added", Callable(self, "_on_tree_changed"))
-		get_tree().connect("node_removed", Callable(self, "_on_tree_changed"))
-
-		animated_sprite_2d.animation_finished.connect(_attack_animation_finished)
 		area_2d.body_entered.connect(_on_attack_area_body_entered)
-		animated_sprite_2d.frame_changed.connect(_on_frame_changed)
 		
-	hitbox.set_deferred("disabled", true)
-	area_2d.set_deferred("monitoring", false)
 
 	_play_anim_from_velocity()
 	
@@ -54,10 +44,11 @@ func _process(delta):
 	health_bar.value = health
 	sb.bg_color = Color.from_hsv(max((health-25)/225.0, 0), 1, 1, 1)
 
+@export var detection_range = 100000
 func _reacquire_target() -> void:
 
 	var best: Node2D = null
-	var dist = 100000 #Detection range
+	var dist = detection_range
 
 	for id in Network.players:
 		var player = Network.players[id]
@@ -102,7 +93,7 @@ func _physics_process(delta: float) -> void:
 	rpc("_sync_state", global_position, velocity)
 
 @rpc("authority", "call_local", "unreliable")
-func _sync_state(pos: Vector2, vel: Vector2) -> void:
+func _sync_state(pos, vel, ) -> void:
 	if multiplayer.is_server():
 		return
 	global_position = pos
@@ -116,24 +107,24 @@ func _play_anim_from_velocity() -> void:
 	var target_anim = "idle"
 
 	if attacking:
-		if anim.animation != "attack" or not anim.is_playing():
-			anim.play("attack")
+		#if anim.animation != "attack" or not anim.is_playing():
+			#anim.play("attack")
 		return
 
 	if abs(velocity.x) >= run_threshold:
 		target_anim = "run"
 
-	if abs(velocity.x) >= 1.0:
-		if velocity.x > 0:
-			anim.flip_h = true
-			hitbox.position.x = 25
-		else:
-			anim.flip_h = false
-			hitbox.position.x = -25
+	#if abs(velocity.x) >= 1.0:
+		#if velocity.x > 0:
+			#anim.flip_h = true
+			#hitbox.position.x = 25
+		#else:
+			#anim.flip_h = false
+			#hitbox.position.x = -25
 
 	# Only switch if changed
-	if anim.animation != target_anim or not anim.is_playing():
-		anim.play(target_anim)
+	#if anim.animation != target_anim or not anim.is_playing():
+		#anim.play(target_anim)
 
 
 func _on_attack_area_body_entered(body: Node) -> void:
@@ -141,20 +132,12 @@ func _on_attack_area_body_entered(body: Node) -> void:
 		attacking = true
 		body.velocity += (body.global_position - global_position) * 20
 		body.decrease_health(10)
-		hitbox.set_deferred("disabled", true)
-		area_2d.set_deferred("monitoring", false)
 
-func _attack_animation_finished():
-	attacking = false
-	hitbox.set_deferred("disabled", true)
-	area_2d.set_deferred("monitoring", false)
-		
-func _on_frame_changed():
-	if animated_sprite_2d.animation == "attack":
-		if animated_sprite_2d.frame == 5:
-			hitbox.set_deferred("disabled", false)
-			area_2d.set_deferred("monitoring", true)
-		elif animated_sprite_2d.frame == 8:
-			hitbox.set_deferred("disabled", true)
-			area_2d.set_deferred("monitoring", false)
-			
+
+
+func _check_attack_landed():
+	var bodies = area_2d.get_overlapping_bodies()
+	for body in bodies:
+		if body.is_in_group("players"):
+			body.velocity += (body.global_position - global_position) * 20
+			body.decrease_health(10)
