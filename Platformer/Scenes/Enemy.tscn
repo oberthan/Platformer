@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://n82m4mysmsm5"]
+[gd_scene load_steps=19 format=3 uid="uid://n82m4mysmsm5"]
 
 [ext_resource type="Texture2D" uid="uid://di5tbj02670aa" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Idle.png" id="1_m1htj"]
 [ext_resource type="Script" uid="uid://ba6ll0y42t54c" path="res://Scripts/enemy.gd" id="1_mo1ky"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://blt78x8du0lqh" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Die.png" id="3_uoxpr"]
 [ext_resource type="Texture2D" uid="uid://cabkkerd4cya2" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Hit.png" id="4_idouy"]
 [ext_resource type="Texture2D" uid="uid://eg5l7r0n5o3o" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Run.png" id="6_0o0ue"]
+[ext_resource type="AudioStream" uid="uid://cjd05uooystb3" path="res://Resources/Mushroom/Mushroom footsteps.tres" id="6_uoxpr"]
+[ext_resource type="Script" uid="uid://cj8s1vxfa6ui6" path="res://Scripts/audio_stream_player_2d.gd" id="8_idouy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uoxpr"]
 size = Vector2(18, 30)
@@ -227,6 +229,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [7]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AudioStreamPlayer2D:stream")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("6_uoxpr")]
+}
 
 [sub_resource type="Animation" id="Animation_idouy"]
 resource_name = "Run"
@@ -267,6 +281,35 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AudioStreamPlayer2D")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"play_sound"
+}, {
+"args": [],
+"method": &"play_sound"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AudioStreamPlayer2D:stream")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("6_uoxpr")]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uihya"]
@@ -318,5 +361,13 @@ libraries = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BounceTrigger"]
 shape = SubResource("RectangleShape2D_6bs3c")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, 38)
+stream = ExtResource("6_uoxpr")
+volume_db = -8.432
+max_distance = 555.0
+max_polyphony = 2
+script = ExtResource("8_idouy")
 
 [connection signal="body_entered" from="BounceTrigger" to="." method="bounce_on_head"]
