@@ -1,0 +1,105 @@
+[gd_scene load_steps=13 format=4 uid="uid://degrblgsmrth1"]
+
+[ext_resource type="Script" uid="uid://b5of1r04aqpn8" path="res://Scripts/Level.gd" id="1_e55l1"]
+[ext_resource type="PackedScene" uid="uid://chm8q361s8ydj" path="res://Scenes/Player.tscn" id="2_7o78n"]
+[ext_resource type="Script" uid="uid://bs1653twkw87e" path="res://Scripts/Background.gd" id="3_5jt7l"]
+[ext_resource type="Texture2D" uid="uid://cw1c3j8q705vj" path="res://assetpack/parallax/forest/forest_sky.png" id="4_bvjrk"]
+[ext_resource type="Texture2D" uid="uid://c7wmh4sklo5on" path="res://assetpack/parallax/forest/forest_moon.png" id="5_7javl"]
+[ext_resource type="Texture2D" uid="uid://c4t5racpmtfdn" path="res://assetpack/parallax/forest/forest_mountain.png" id="6_7blwr"]
+[ext_resource type="Texture2D" uid="uid://s5eh4x2hqlhl" path="res://assetpack/parallax/forest/forest_back.png" id="7_vo8e2"]
+[ext_resource type="Texture2D" uid="uid://txao6pa83qtg" path="res://assetpack/parallax/forest/forest_mid.png" id="8_mtads"]
+[ext_resource type="Texture2D" uid="uid://c1sh41531duqj" path="res://assetpack/parallax/forest/forest_long.png" id="9_3e7ve"]
+[ext_resource type="Texture2D" uid="uid://spveuaws47cc" path="res://assetpack/parallax/forest/forest_short.png" id="10_2l8yk"]
+[ext_resource type="TileSet" uid="uid://ds01y885blyr1" path="res://Resources/Ground.tres" id="11_oew26"]
+[ext_resource type="PackedScene" uid="uid://n82m4mysmsm5" path="res://Scenes/Enemy.tscn" id="12_cye62"]
+
+[node name="Level_tutorial" type="Node2D"]
+script = ExtResource("1_e55l1")
+player_scene = ExtResource("2_7o78n")
+
+[node name="Background" type="Node2D" parent="."]
+script = ExtResource("3_5jt7l")
+
+[node name="Sky" type="Parallax2D" parent="Background"]
+scale = Vector2(0.5, 0.5)
+autoscroll = Vector2(2.5, 0)
+repeat_times = 4
+
+[node name="Sky" type="Sprite2D" parent="Background/Sky"]
+texture = ExtResource("4_bvjrk")
+region_rect = Rect2(9, 6, 1891, 1195)
+
+[node name="Parallax2D4" type="Parallax2D" parent="Background"]
+scale = Vector2(0.25, 0.25)
+repeat_times = 4
+
+[node name="Moon" type="Sprite2D" parent="Background/Parallax2D4"]
+texture = ExtResource("5_7javl")
+
+[node name="Parallax2D5" type="Parallax2D" parent="Background"]
+scale = Vector2(0.25, 0.25)
+repeat_times = 4
+
+[node name="Mountain" type="Sprite2D" parent="Background/Parallax2D5"]
+texture = ExtResource("6_7blwr")
+region_enabled = true
+region_rect = Rect2(0, 0, 3797.5, 2400)
+
+[node name="Parallax2D" type="Parallax2D" parent="Background"]
+scale = Vector2(0.25, 0.25)
+repeat_times = 4
+
+[node name="Back" type="Sprite2D" parent="Background/Parallax2D"]
+texture = ExtResource("7_vo8e2")
+
+[node name="Parallax2D3" type="Parallax2D" parent="Background"]
+scale = Vector2(0.25, 0.25)
+repeat_times = 4
+
+[node name="Mid" type="Sprite2D" parent="Background/Parallax2D3"]
+texture = ExtResource("8_mtads")
+
+[node name="Parallax2D2" type="Parallax2D" parent="Background"]
+scale = Vector2(0.5, 0.5)
+repeat_times = 4
+
+[node name="Long" type="Sprite2D" parent="Background/Parallax2D2"]
+texture = ExtResource("9_3e7ve")
+
+[node name="Parallax2D6" type="Parallax2D" parent="Background"]
+visible = false
+scale = Vector2(0.25, 0.25)
+scroll_offset = Vector2(0, 50)
+repeat_times = 4
+
+[node name="Short" type="Sprite2D" parent="Background/Parallax2D6"]
+texture = ExtResource("10_2l8yk")
+region_enabled = true
+region_rect = Rect2(0, 0, 3792, 2400)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+scale = Vector2(2.5, 2.5)
+tile_map_data = PackedByteArray("AAABAA4AAAAIAAAAAAACAA4AAAAIAAAAAAADAA4AAAAIAAAAAAAEAA4AAAAIAAAAAAAFAA4AAAAIAAAAAAAGAA4AAAAIAAAAAAAHAA4AAAAIAAAAAAAIAA4AAAAIAAAAAAAJAA0AAAAIAAAAAAAKAA0AAAAIAAAAAAALAA0AAAAIAAAAAAAMAA0AAAAIAAAAAAANAA0AAAAIAAAAAAANAA4AAAAIAAAAAAAMAA4AAAAIAAAAAAALAA4AAAAIAAAAAAAKAA4AAAAIAAAAAAAJAA4AAAAIAAAAAAA=")
+tile_set = ExtResource("11_oew26")
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(291, 496)
+
+[node name="Enimies" type="Node" parent="."]
+
+[node name="Enemy" parent="Enimies" instance=ExtResource("12_cye62")]
+position = Vector2(1323.0001, 526)
+scale = Vector2(2.5, 2.5)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+position = Vector2(1420, 211)
+color = Color(0.175214, 0.175406, 0.380746, 1)
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+position = Vector2(1451, 294)
+rotation = -0.42586
+energy = 0.25
+shadow_enabled = true
+shadow_color = Color(0.165656, 0.165656, 0.165656, 0)
+shadow_filter = 2
+shadow_filter_smooth = 0.9
