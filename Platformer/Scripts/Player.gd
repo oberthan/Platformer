@@ -17,7 +17,8 @@ var health: float = 100
 var inputs = {
 	"left": false,
 	"right": false,
-	"jump": false
+	"jump": false,
+	"attack": false
 }
 
 var server_position = Vector2.ZERO
@@ -123,6 +124,15 @@ func apply_server_input(p_inputs, delta):
 	facing_left = velocity.x < 0 
 	facing_left = prev_facing if velocity.x == 0 else facing_left
 	
+	var attack = ""
+	var cooldown = 1
+	cooldown -= delta
+	
+	if p_inputs.attack and cooldown <= 1:
+		attack = "attack"
+		cooldown = 1
+		
+	
 	move_and_slide()
 	
 	# Server-authoritative animation logic
@@ -157,16 +167,18 @@ func update_client_state(p_position, p_velocity):
 		velocity = server_velocity
 
 @rpc("any_peer", "call_local")
-func update_animation(id, player_velocity, on_floor, flip):
+func update_animation(id, player_velocity, on_floor, flip, attack):
 	if name == id:
 		var walking = player_velocity.x != 0 and on_floor
 		animation_tree["parameters/conditions/idle"] = !walking
 		animation_tree["parameters/conditions/is_walking"] = walking
 		animation_tree["parameters/conditions/jump"] = player_velocity.y == JUMP_VELOCITY
+		animation_tree["parameters/conditions/attack"] = attack == "attack"
 				
 		animation_tree["parameters/Idle/blend_position"] = -1 if flip else 1
 		animation_tree["parameters/Jump/blend_position"] = -1 if flip else 1
 		animation_tree["parameters/Walk/blend_position"] = -1 if flip else 1
+		
 		
 		
 
