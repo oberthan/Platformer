@@ -18,7 +18,7 @@ var inputs = {
 	"left": false,
 	"right": false,
 	"jump": false,
-	"attack": false
+	"attack1": false
 }
 
 var server_position = Vector2.ZERO
@@ -85,6 +85,7 @@ func _physics_process(delta: float) -> void:
 		inputs.left = Input.is_action_pressed("left")
 		inputs.right = Input.is_action_pressed("right")
 		inputs.jump = Input.is_action_just_pressed("jump")
+		inputs.attack1 = Input.is_action_just_pressed("attack1")
 		Network.rpc_id(1, "receive_player_input", player_role, inputs)
 
 	# On clients, all player nodes (local and remote) are puppets.
