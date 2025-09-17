@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var player_role: int = 0
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var audio_listener: AudioListener2D = $AudioListener2D
 
 @onready var collider_body: CollisionShape2D = $ColliderBody
 @onready var health_bar: ProgressBar = $ProgressBar
@@ -32,6 +33,7 @@ func _enter_tree():
 	set_multiplayer_authority(name.to_int())
 	cam.enabled = is_multiplayer_authority()
 
+
 func _ready() -> void:
 	# The server needs to simulate collisions for all players.
 	# Clients only need to simulate their own player.
@@ -42,9 +44,12 @@ func _ready() -> void:
 		set_collision_mask_value(1, is_multiplayer_authority())
 
 	cam.enabled = is_multiplayer_authority()
+
 	
 	# If this is the client's own player, it needs to tell the background what camera to follow.
 	if is_multiplayer_authority():
+		audio_listener.clear_current()
+		audio_listener.make_current()
 		# Find the background node. We assume it's a sibling of the player.
 		var background = get_parent().find_child("Background")
 		if background:
