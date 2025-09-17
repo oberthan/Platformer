@@ -94,6 +94,8 @@ func receive_player_input(id, inputs):
 		# should be overwritten, but single-press actions (like jump) should be merged.
 		if inputs.jump:
 			player_inputs[id].jump = true
+		if inputs.attack:
+			player_inputs[id].attack = true
 		
 		player_inputs[id].left = inputs.left
 		player_inputs[id].right = inputs.right
