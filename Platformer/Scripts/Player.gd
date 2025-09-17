@@ -13,12 +13,14 @@ var SPEED = 300.0
 var JUMP_VELOCITY = -425.0
 var facing_left = true
 var health: float = 100
+var id = 1
 
 var inputs = {
 	"left": false,
 	"right": false,
 	"jump": false,
-	"attack1": false
+	"attack1": false,
+	"switch": false
 }
 
 var server_position = Vector2.ZERO
@@ -88,6 +90,7 @@ func _physics_process(delta: float) -> void:
 		inputs.right = Input.is_action_pressed("right")
 		inputs.jump = Input.is_action_just_pressed("jump")
 		inputs.attack1 = Input.is_action_just_pressed("attack1")
+		inputs.switch = Input.is_action_just_pressed("switch_players")
 		Network.rpc_id(1, "receive_player_input", player_role, inputs)
 
 	# On clients, all player nodes (local and remote) are puppets.
@@ -101,6 +104,24 @@ func _physics_process(delta: float) -> void:
 				position = position.lerp(server_position, 0.2)
 			move_and_slide()
 
+func change_player(playerid):
+	if len(Network.get_all_player_ids()) == 1 and "--server" not in OS.get_cmdline_args():
+		if playerid == 1:
+			print("changed to player 2")
+			sprite_2d.texture = load("res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/3 Dude_Monster/Dude_Monster_sheet.png")
+			set_collision_mask_value(3, true)
+			scale = Vector2(1, 1.2)
+			JUMP_VELOCITY = -500
+			SPEED = 350
+			id = 2
+		else:
+			print("changed to player 1")
+			sprite_2d.texture = load("res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Sheet.png")
+			set_collision_mask_value(2, true)
+			scale = Vector2(1, 1)
+			JUMP_VELOCITY = -425
+			SPEED = 300
+			id = 1
 
 # This function is only ever executed on the server.
 func apply_server_input(p_inputs, delta):
@@ -109,7 +130,10 @@ func apply_server_input(p_inputs, delta):
 		coyote_timer += delta
 	else:
 		coyote_timer = 0
-
+		
+	if p_inputs.switch:
+		change_player(id)	
+	
 	if p_inputs.jump and coyote_timer < coyote_time:
 		velocity.y = JUMP_VELOCITY
 		coyote_timer += coyote_time

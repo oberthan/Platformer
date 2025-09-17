@@ -12,6 +12,7 @@ func _ready():
 		if background:
 			background.queue_free()
 		
+		
 		for id in Network.get_all_player_ids():
 			if id == 1 and "--server" not in OS.get_cmdline_args():
 				add_player(id)
@@ -64,3 +65,4 @@ func _physics_process(delta):
 				# Reset the jump input after it has been processed.
 				Network.player_inputs[player_id].jump = false
 				Network.player_inputs[player_id].attack1 = false
+				Network.player_inputs[player_id].switch = false
