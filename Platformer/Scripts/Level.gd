@@ -63,3 +63,4 @@ func _physics_process(delta):
 				
 				# Reset the jump input after it has been processed.
 				Network.player_inputs[player_id].jump = false
+				Network.player_inputs[player_id].attack1 = false

@@ -191,7 +191,7 @@ resource_name = "Attack_right"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
-tracks/0/enabled = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:flip_h")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
@@ -441,10 +441,13 @@ blend_point_0/node = SubResource("AnimationNodeAnimation_bhhdu")
 blend_point_0/pos = -1.0
 blend_point_1/node = SubResource("AnimationNodeAnimation_ksbbd")
 blend_point_1/pos = 1.0
+blend_mode = 1
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_yoq75"]
+blend_mode = 1
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_glx4g"]
+blend_mode = 1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_miouo"]
 advance_mode = 2
@@ -550,6 +553,7 @@ advance_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_u7x0b"]
 switch_mode = 2
 advance_mode = 2
+advance_condition = &"idle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_utwlt"]
 advance_mode = 2
@@ -566,6 +570,7 @@ advance_condition = &"attack"
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_c43xd"]
 switch_mode = 2
 advance_mode = 2
+advance_condition = &"is_walking"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_5v66d"]
 states/Attack/node = SubResource("AnimationNodeStateMachine_8flut")
@@ -637,11 +642,11 @@ parameters/conditions/idle = false
 parameters/conditions/is_walking = false
 parameters/conditions/jump = false
 parameters/Attack/conditions/hit_attack = false
-parameters/Attack/conditions/idle = false
+parameters/Attack/conditions/idle = true
 parameters/Attack/conditions/is_walking = false
 parameters/Attack/conditions/throw_attack = false
 parameters/Attack/Hit/blend_position = 0
-parameters/Attack/Standing/blend_position = -0.732836
+parameters/Attack/Standing/blend_position = 0.00101006
 parameters/Attack/Throw/blend_position = 0
 parameters/Attack/Walking/blend_position = 0
 parameters/Idle/blend_position = 0.0
