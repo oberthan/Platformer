@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://33ejdfahojo7" path="res://Resources/Sounds/night-forest-soundscape-158701.mp3" id="6_52ee3"]
 [ext_resource type="Texture2D" uid="uid://bkxgtquprto47" path="res://Resources/Textures/2d_lights_and_shadows_neutral_point_light.webp" id="7_bhhdu"]
 [ext_resource type="AudioStream" uid="uid://c31wh7jjapdki" path="res://Resources/Sounds/Grass/rustling-grass-2-101283.mp3" id="8_yoq75"]
-[ext_resource type="Script" uid="uid://cj8s1vxfa6ui6" path="res://Scripts/audio_stream_player_2d.gd" id="11_ksbbd"]
+[ext_resource type="Script" path="res://Scripts/audio_stream_player_2d.gd" id="11_ksbbd"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_52ee3"]
 light_mode = 1

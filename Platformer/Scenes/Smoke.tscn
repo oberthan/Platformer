@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bg42cfdix8ovd"]
+
+[ext_resource type="SpriteFrames" uid="uid://dn5x3upydiuus" path="res://Resources/Textures/smoke.tres" id="1_684ax"]
+[ext_resource type="Script" uid="uid://chmjct031k274" path="res://Scripts/smoke.gd" id="1_ke2ic"]
+
+[node name="Smoke" type="AnimatedSprite2D"]
+scale = Vector2(2.5, 2.5)
+sprite_frames = ExtResource("1_684ax")
+autoplay = "default"
+frame = 5
+frame_progress = 1.0
+script = ExtResource("1_ke2ic")
