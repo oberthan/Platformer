@@ -152,7 +152,8 @@ func apply_server_input(p_inputs, delta):
 	if direction:
 		velocity.x = direction * SPEED
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, SPEED*(delta if not is_on_floor() else delta*10))
+		
 	facing_left = velocity.x < 0 
 	facing_left = prev_facing if velocity.x == 0 else facing_left
 	

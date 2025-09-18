@@ -21,7 +21,7 @@ var _target: Node2D = null
 @export var attacking = 0
 
 enum State { IDLE, CHASING, ATTACKING }
-var state: State = State.IDLE
+@export var state: State = State.IDLE
 
 func _ready() -> void:
 	set_multiplayer_authority(1)
@@ -81,13 +81,14 @@ func _physics_process(delta: float) -> void:
 		
 		if attacking > 0:
 			state = State.ATTACKING
-		elif distance < 50: # "close" but not attacking
-			state = State.IDLE
-		elif distance < detection_range:
-			state = State.CHASING
-
-		else:
-			state = State.IDLE
+		elif state != State.ATTACKING:
+			if distance < 50: # "close" but not attacking
+				state = State.IDLE
+			elif distance < detection_range:
+				state = State.CHASING
+			else:
+				state = State.IDLE
+		
 			
 			
 		
@@ -95,13 +96,22 @@ func _physics_process(delta: float) -> void:
 			State.CHASING:
 				var dir_x = sign(dx)
 				velocity.x = move_toward(velocity.x, speed * dir_x, acceleration * delta)
+				if dx > 0:
+					$Sprite2D.flip_h = true
+					area_2d.position.x = 26
+				else:
+					$Sprite2D.flip_h = false
+					area_2d.position.x = -26
+					
 
 			State.IDLE:
 				velocity.x = 0
 				# Face the player
 				if dx > 0:
 					$Sprite2D.flip_h = true
+					area_2d.position.x = 26
 				else:
+					area_2d.position.x = -26
 					$Sprite2D.flip_h = false
 
 			State.ATTACKING:
@@ -157,7 +167,8 @@ func _check_attack_landed():
 	var bodies = area_2d.get_overlapping_bodies()
 	for body in bodies:
 		if body.is_in_group("players"):
-			body.velocity += (body.global_position - global_position) * 20
+			var dir_left = body.global_position < global_position
+			body.velocity += Vector2(-300 if dir_left else 300, -200)
 			body.decrease_health(damage)
 
 func bounce_on_head(body: Node2D):
