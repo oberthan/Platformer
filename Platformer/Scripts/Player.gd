@@ -101,6 +101,8 @@ func _physics_process(delta: float) -> void:
 		inputs.right = Input.is_action_pressed("right")
 		inputs.jump = Input.is_action_just_pressed("jump")
 		inputs.attack1 = Input.is_action_just_pressed("attack1")
+		if inputs.attack1:
+			print("Attack1 pressed")
 		inputs.switch = Input.is_action_just_pressed("switch_players")
 		Network.rpc_id(1, "receive_player_input", player_role, inputs)
 
