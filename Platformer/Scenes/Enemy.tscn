@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cabkkerd4cya2" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Hit.png" id="4_idouy"]
 [ext_resource type="Texture2D" uid="uid://eg5l7r0n5o3o" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Run.png" id="6_0o0ue"]
 [ext_resource type="AudioStream" uid="uid://bxpkcqgnhanoe" path="res://Resources/Mushroom/Mushroom-footsteps.tres" id="7_uoxpr"]
-[ext_resource type="Script" path="res://Scripts/audio_stream_player_2d.gd" id="8_idouy"]
+[ext_resource type="Script" uid="uid://cj8s1vxfa6ui6" path="res://Scripts/audio_stream_player_2d.gd" id="8_idouy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uoxpr"]
 size = Vector2(18, 30)
