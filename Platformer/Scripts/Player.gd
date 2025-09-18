@@ -9,12 +9,16 @@ extends CharacterBody2D
 @onready var collider_body: CollisionShape2D = $ColliderBody
 @onready var health_bar: ProgressBar = $ProgressBar
 @onready var sb = StyleBoxFlat.new()
+const smoke = preload("res://Scenes/Smoke.tscn")
+
 
 var SPEED = 300.0
 var JUMP_VELOCITY = -425.0
 var facing_left = true
 var health: float = 100
 var player_id = 1
+@export var abort_anim = false
+@export var just_hurt = false
 
 var inputs = {
 	"left": false,
@@ -109,13 +113,14 @@ func _physics_process(delta: float) -> void:
 				position = position.lerp(server_position, 0.2)
 			move_and_slide()
 
-func change_player(playerid):
+func change_player(playerid, pos: Vector2):
 	if len(Network.get_all_player_ids()) == 1 and "--server" not in OS.get_cmdline_args():
 		if playerid == 1:
 			print("changed to player 2")
 			sprite_2d.texture = load("res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/3 Dude_Monster/Dude_Monster_sheet.png")
 			set_collision_mask_value(3, true)
 			scale = Vector2(1, 1.2)
+			pos.y -= 3.2
 			JUMP_VELOCITY = -500
 			SPEED = 350
 			player_id = 2
@@ -124,9 +129,23 @@ func change_player(playerid):
 			sprite_2d.texture = load("res://craftpix-net-622999-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Sheet.png")
 			set_collision_mask_value(2, true)
 			scale = Vector2(1, 1)
+			pos.y += 3.2
 			JUMP_VELOCITY = -425
 			SPEED = 300
 			player_id = 1
+		rpc("spawn_smoke", pos)
+		
+
+@rpc("any_peer", "call_local")
+func spawn_smoke(pos: Vector2) -> void:
+	var smoke_element = smoke.instantiate()
+	var smoke_element_left = smoke.instantiate()
+	smoke_element.global_position = pos+Vector2(48, -32)
+	smoke_element_left.global_position = pos+Vector2(-48, -32)
+	smoke_element_left.flip_h = true
+	get_parent().add_child(smoke_element)
+	get_parent().add_child(smoke_element_left)
+	
 
 # This function is only ever executed on the server.
 func apply_server_input(p_inputs, delta):
@@ -137,7 +156,7 @@ func apply_server_input(p_inputs, delta):
 		coyote_timer = 0
 		
 	if p_inputs.switch:
-		change_player(player_id)	
+		change_player(player_id, global_position)	
 	
 	if p_inputs.jump and coyote_timer < coyote_time:
 		velocity.y = JUMP_VELOCITY
@@ -174,7 +193,7 @@ func apply_server_input(p_inputs, delta):
 	if velocity != prev_vel or facing_left != prev_facing or did_attack:
 		prev_vel = velocity if not did_attack else velocity + Vector2(1,1)
 		prev_facing = facing_left
-		rpc("update_animation", name, velocity, is_on_floor(), facing_left, did_attack, last_attack)
+		rpc("update_animation", name, velocity, is_on_floor(), facing_left, did_attack, last_attack, abort_anim, just_hurt)
 
 
 	if position.y > 1000:
@@ -188,6 +207,8 @@ func apply_server_input(p_inputs, delta):
 
 func decrease_health(amount):
 	health -= amount
+	abort_anim = true
+	just_hurt = true
 	rpc("update_health", name, health)
 
 # This RPC is received by all clients to update the state of their puppets.
@@ -200,8 +221,12 @@ func update_client_state(p_position, p_velocity):
 		velocity = server_velocity
 
 @rpc("any_peer", "call_local")
-func update_animation(id, player_velocity, on_floor, flip, is_attack, attack_type):
+func update_animation(id, player_velocity, on_floor, flip, is_attack, attack_type,abort, hurt):
 	if name == id:
+		
+		animation_tree["parameters/Attack/conditions/abort"] = abort
+		animation_tree["parameters/conditions/hurt"] = hurt
+		
 		var walking = player_velocity.x != 0 and on_floor
 		animation_tree["parameters/conditions/idle"] = !walking
 		animation_tree["parameters/Attack/conditions/idle"] = !walking
