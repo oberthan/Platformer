@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var cam = Camera2D
 @export var player_role: int = 0
 @onready var animation_tree: AnimationTree = $AnimationTree
+@onready var anim_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var audio_listener: AudioListener2D = $AudioListener2D
 
@@ -15,7 +16,9 @@ const smoke = preload("res://Scenes/Smoke.tscn")
 var SPEED = 300.0
 var JUMP_VELOCITY = -425.0
 var facing_left = true
-var health: float = 100
+@export var health: float = 1
+@export var dead = false
+@export var reset_level = false
 var player_id = 1
 @export var abort_anim = false
 @export var just_hurt = false
@@ -39,6 +42,8 @@ func _enter_tree():
 
 
 func _ready() -> void:
+	
+	anim_player.animation_finished.connect(on_anim_finished)
 	# The server needs to simulate collisions for all players.
 	# Clients only need to simulate their own player.
 	if multiplayer.is_server():
@@ -147,6 +152,11 @@ func spawn_smoke(pos: Vector2) -> void:
 	get_parent().add_child(smoke_element_left)
 	
 
+func on_anim_finished(name) -> void:
+	if name == "death_left" or name == "death_right":
+		print("died")
+		
+
 # This function is only ever executed on the server.
 func apply_server_input(p_inputs, delta):
 	if not is_on_floor():
@@ -193,7 +203,7 @@ func apply_server_input(p_inputs, delta):
 	if velocity != prev_vel or facing_left != prev_facing or did_attack:
 		prev_vel = velocity if not did_attack else velocity + Vector2(1,1)
 		prev_facing = facing_left
-		rpc("update_animation", name, velocity, is_on_floor(), facing_left, did_attack, last_attack, abort_anim, just_hurt)
+		rpc("update_animation", name, velocity, is_on_floor(), facing_left, did_attack, last_attack, abort_anim, just_hurt, dead)
 
 
 	if position.y > 1000:
@@ -207,6 +217,8 @@ func apply_server_input(p_inputs, delta):
 
 func decrease_health(amount):
 	health -= amount
+	if health <= 0:
+		dead = true
 	abort_anim = true
 	just_hurt = true
 	rpc("update_health", name, health)
@@ -221,8 +233,10 @@ func update_client_state(p_position, p_velocity):
 		velocity = server_velocity
 
 @rpc("any_peer", "call_local")
-func update_animation(id, player_velocity, on_floor, flip, is_attack, attack_type,abort, hurt):
+func update_animation(id, player_velocity, on_floor, flip, is_attack, attack_type,abort, hurt, is_dead):
 	if name == id:
+		
+		animation_tree["parameters/conditions/is_dead"] = is_dead
 		
 		animation_tree["parameters/Attack/conditions/abort"] = abort
 		animation_tree["parameters/conditions/hurt"] = hurt
