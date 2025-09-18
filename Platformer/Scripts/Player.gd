@@ -17,6 +17,8 @@ var JUMP_VELOCITY = -425.0
 var facing_left = true
 var health: float = 100
 var player_id = 1
+@export var abort_anim = false
+@export var just_hurt = false
 
 var inputs = {
 	"left": false,
@@ -190,7 +192,7 @@ func apply_server_input(p_inputs, delta):
 	if velocity != prev_vel or facing_left != prev_facing or did_attack:
 		prev_vel = velocity if not did_attack else velocity + Vector2(1,1)
 		prev_facing = facing_left
-		rpc("update_animation", name, velocity, is_on_floor(), facing_left, did_attack, last_attack)
+		rpc("update_animation", name, velocity, is_on_floor(), facing_left, did_attack, last_attack, abort_anim, just_hurt)
 
 
 	if position.y > 1000:
@@ -204,6 +206,8 @@ func apply_server_input(p_inputs, delta):
 
 func decrease_health(amount):
 	health -= amount
+	abort_anim = true
+	just_hurt = true
 	rpc("update_health", name, health)
 
 # This RPC is received by all clients to update the state of their puppets.
@@ -216,8 +220,12 @@ func update_client_state(p_position, p_velocity):
 		velocity = server_velocity
 
 @rpc("any_peer", "call_local")
-func update_animation(id, player_velocity, on_floor, flip, is_attack, attack_type):
+func update_animation(id, player_velocity, on_floor, flip, is_attack, attack_type,abort, hurt):
 	if name == id:
+		
+		animation_tree["parameters/Attack/conditions/abort"] = abort
+		animation_tree["parameters/conditions/hurt"] = hurt
+		
 		var walking = player_velocity.x != 0 and on_floor
 		animation_tree["parameters/conditions/idle"] = !walking
 		animation_tree["parameters/Attack/conditions/idle"] = !walking
