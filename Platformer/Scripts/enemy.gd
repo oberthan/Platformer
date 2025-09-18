@@ -13,8 +13,8 @@ extends CharacterBody2D
 @onready var health_bar: ProgressBar = $ProgressBar
 @onready var sb = StyleBoxFlat.new()
 
-
-var health: float = 59
+@export var max_health: float = 70
+var health: float
 
 var _target: Node2D = null
 
@@ -36,16 +36,17 @@ func _ready() -> void:
 	
 	health_bar.add_theme_stylebox_override("fill", sb)
 	sb.bg_color = Color("00ff00")
+	health = max_health
 
 func decrease_health(amount):
 	health -= amount
 
 func _process(delta):
-	if health >= 100:
+	if health >= max_health:
 		health_bar.hide()
 	else:
 		health_bar.show()
-	health_bar.value = health
+	health_bar.value = health/max_health*100
 	sb.bg_color = Color.from_hsv(max((health-25)/225.0, 0), 1, 1, 1)
 
 @export var detection_range = 350
