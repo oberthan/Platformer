@@ -6,8 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://blt78x8du0lqh" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Die.png" id="3_uoxpr"]
 [ext_resource type="Texture2D" uid="uid://cabkkerd4cya2" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Hit.png" id="4_idouy"]
 [ext_resource type="Texture2D" uid="uid://eg5l7r0n5o3o" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Run.png" id="6_0o0ue"]
+<<<<<<< HEAD
 [ext_resource type="AudioStream" uid="uid://bxpkcqgnhanoe" path="res://Resources/Mushroom/Mushroom-footsteps.tres" id="7_uoxpr"]
 [ext_resource type="Script" uid="uid://cj8s1vxfa6ui6" path="res://Scripts/audio_stream_player_2d.gd" id="8_idouy"]
+=======
+[ext_resource type="Script" path="res://Scripts/audio_stream_player_2d.gd" id="8_idouy"]
+>>>>>>> e1347ff3dd87ad6f53aedd95989a1146c982d7f9
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uoxpr"]
 size = Vector2(18, 30)
@@ -255,6 +259,7 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [SubResource("Resource_6bs3c")]
+<<<<<<< HEAD
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -267,7 +272,12 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+=======
+>>>>>>> e1347ff3dd87ad6f53aedd95989a1146c982d7f9
 }
+
+[sub_resource type="Resource" id="Resource_uoxpr"]
+metadata/__load_path__ = "res://Resources/Mushroom/Mushroom footsteps.tres"
 
 [sub_resource type="Animation" id="Animation_idouy"]
 resource_name = "Run"
@@ -336,7 +346,11 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
+<<<<<<< HEAD
 "values": [ExtResource("7_uoxpr")]
+=======
+"values": [SubResource("Resource_uoxpr")]
+>>>>>>> e1347ff3dd87ad6f53aedd95989a1146c982d7f9
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uihya"]
