@@ -3,7 +3,6 @@ extends CharacterBody2D
 @export var cam = Camera2D
 @export var player_role: int = 0
 @onready var animation_tree: AnimationTree = $AnimationTree
-@onready var anim_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var audio_listener: AudioListener2D = $AudioListener2D
 
@@ -42,8 +41,6 @@ func _enter_tree():
 
 
 func _ready() -> void:
-	
-	anim_player.animation_finished.connect(on_anim_finished)
 	# The server needs to simulate collisions for all players.
 	# Clients only need to simulate their own player.
 	if multiplayer.is_server():
@@ -150,13 +147,7 @@ func spawn_smoke(pos: Vector2) -> void:
 	smoke_element_left.flip_h = true
 	get_parent().add_child(smoke_element)
 	get_parent().add_child(smoke_element_left)
-	
-
-func on_anim_finished(name) -> void:
-	if name == "death_left" or name == "death_right":
-		print("died")
 		
-
 # This function is only ever executed on the server.
 func apply_server_input(p_inputs, delta):
 	if not is_on_floor():
