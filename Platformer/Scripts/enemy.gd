@@ -26,7 +26,7 @@ enum State { IDLE, CHASING, ATTACKING }
 func _ready() -> void:
 	set_multiplayer_authority(1)
 	set_physics_process(multiplayer.is_server())
-
+	$".".add_to_group("enemies")
 	if multiplayer.is_server():
 		area_2d.body_entered.connect(_on_attack_area_body_entered)
 		area_2d.body_exited.connect(_on_attack_area_body_exited)
