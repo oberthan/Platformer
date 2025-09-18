@@ -253,6 +253,8 @@ func update_animation(id, player_velocity, on_floor, flip, is_attack, attack_typ
 		animation_tree["parameters/Idle/blend_position"] = -1 if flip else 1
 		animation_tree["parameters/Jump/blend_position"] = -1 if flip else 1
 		animation_tree["parameters/Walk/blend_position"] = -1 if flip else 1
+		animation_tree["parameters/Hurt/blend_position"] = -1 if flip else 1
+		animation_tree["parameters/Death/blend_position"] = -1 if flip else 1
 		
 		#Attack
 		animation_tree["parameters/Attack/Standing/blend_position"] = -1 if flip else 1
