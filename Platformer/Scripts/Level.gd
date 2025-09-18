@@ -3,6 +3,7 @@ extends Node2D
 @export var player_scene: PackedScene
 @onready var spawn_point = $SpawnPoint
 
+
 var role_counter: int = 1
 
 func _ready():
@@ -11,7 +12,6 @@ func _ready():
 		var background = find_child("Forest", false) # find_child is not recursive by default
 		if background:
 			background.queue_free()
-		
 		
 		for id in Network.get_all_player_ids():
 			if id == 1 and "--server" not in OS.get_cmdline_args():
@@ -58,7 +58,11 @@ func _physics_process(delta):
 	if multiplayer.is_server():
 		for player_id in Network.players:
 			if Network.player_inputs.has(player_id):
+				
 				var player_node = Network.players[player_id]
+				if player_node.reset_level:
+					reset_level()
+					player_node.reset_level = false
 				var inputs = Network.player_inputs[player_id]
 				player_node.apply_server_input(inputs, delta)
 				
@@ -66,3 +70,7 @@ func _physics_process(delta):
 				Network.player_inputs[player_id].jump = false
 				Network.player_inputs[player_id].attack1 = false
 				Network.player_inputs[player_id].switch = false
+
+func reset_level():
+	get_tree().reload_current_scene()
+	
