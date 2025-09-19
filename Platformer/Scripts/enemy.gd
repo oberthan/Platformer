@@ -53,11 +53,11 @@ func decrease_health(amount):
 	if not multiplayer.is_server():
 		return
 	if immunity_timer <= 0:
+		health -= amount
 		if health <= 0:
 			dead = true
 		else:
 			hurting = true
-		health -= amount
 		immunity_timer = 1
 		rpc("update_health", enemy_id, health)
 

@@ -192,7 +192,6 @@ func apply_server_input(p_inputs, delta):
 	
 	if position.y > 1000:
 		dead = true
-		print("Fell off map")
 	
 	if velocity != prev_vel or facing_left != prev_facing or did_attack:
 		prev_vel = velocity if not did_attack else velocity + Vector2(1,1)
@@ -210,7 +209,6 @@ func decrease_health(amount):
 	health -= amount
 	if health <= 0:
 		dead = true
-		print("Should be dead: ", dead)
 	abort_anim = true
 	just_hurt = true
 	rpc("update_health", name, health)
@@ -229,8 +227,6 @@ func update_animation(id, player_velocity, on_floor, flip, is_attack, attack_typ
 	if name == id:
 		
 		animation_tree["parameters/conditions/is_dead"] = is_dead
-		if is_dead:
-			print("Womp wopmp")
 		
 		animation_tree["parameters/Attack/conditions/abort"] = abort
 		animation_tree["parameters/conditions/hurt"] = hurt
