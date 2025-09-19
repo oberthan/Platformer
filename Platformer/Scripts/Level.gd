@@ -6,7 +6,9 @@ extends Node2D
 
 var role_counter: int = 1
 
-func _enter_tree() -> void:
+func _ready():
+	# Wait until scene is fully in the tree
+	await get_tree().process_frame
 	rpc("level_loaded")
 	
 var loaded = 0
