@@ -6,6 +6,8 @@ extends CharacterBody2D
 @export var max_fall_speed: float = 1800.0
 @export var run_threshold: float = 10.0 
 @export var damage: float = 20
+@onready var enemy: CharacterBody2D = $"."
+
 
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var area_2d: Area2D = $Area2D
@@ -20,10 +22,17 @@ var _target: Node2D = null
 
 @export var attacking = 0
 
-enum State { IDLE, CHASING, ATTACKING }
+enum State { IDLE, CHASING, ATTACKING, HURT, DEAD }
 @export var state: State = State.IDLE
 
+var hurting = false
+var dead = false
+var delete_enemy = false
+
+var immunity_timer = 0
+ 
 func _ready() -> void:
+	anim.animation_finished.connect(anim_finished)
 	set_multiplayer_authority(1)
 	set_physics_process(multiplayer.is_server())
 	$".".add_to_group("enemies")
@@ -39,7 +48,13 @@ func _ready() -> void:
 	health = max_health
 
 func decrease_health(amount):
-	health -= amount
+	if immunity_timer <= 0:
+		if health <= 0:
+			dead = true
+		else:
+			hurting = true
+		health -= amount
+		immunity_timer = 1
 
 func _process(delta):
 	if health >= max_health:
@@ -48,6 +63,9 @@ func _process(delta):
 		health_bar.show()
 	health_bar.value = health/max_health*100
 	sb.bg_color = Color.from_hsv(max((health-25)/225.0, 0), 1, 1, 1)
+	
+	if delete_enemy:
+		despawn_enemy()
 
 @export var detection_range = 350
 func _reacquire_target() -> void:
@@ -71,7 +89,7 @@ func _physics_process(delta: float) -> void:
 	
 	_reacquire_target()
 	
-	
+	immunity_timer -= delta
 	# Gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -90,8 +108,13 @@ func _physics_process(delta: float) -> void:
 			else:
 				state = State.IDLE
 		
+		if dead:
+			state = State.DEAD	
+		
+		if hurting:
+			state = State.HURT
 			
-			
+		
 		
 		match state:
 			State.CHASING:
@@ -104,6 +127,17 @@ func _physics_process(delta: float) -> void:
 					$Sprite2D.flip_h = false
 					area_2d.position.x = -26
 					
+			State.HURT:
+				if dx > 0:
+					$Sprite2D.flip_h = true
+				else:
+					$Sprite2D.flip_h = false
+					
+			State.DEAD:
+				if dx > 0:
+					$Sprite2D.flip_h = true
+				else:
+					$Sprite2D.flip_h = false
 
 			State.IDLE:
 				velocity.x = 0
@@ -117,6 +151,9 @@ func _physics_process(delta: float) -> void:
 
 			State.ATTACKING:
 				velocity.x = 0
+				
+
+				
 	else:
 		state = State.IDLE
 		velocity.x = 0
@@ -140,9 +177,16 @@ func _play_anim_from_velocity() -> void:
 	if anim == null:
 		return
 		
-
+	if state == State.DEAD:
+		if anim.current_animation != "Die":
+			anim.play("Die")
 		
-	if state == State.ATTACKING:
+	elif state == State.HURT:
+		if anim.current_animation != "Hurt":
+			anim.play("Hurt")
+			
+		
+	elif state == State.ATTACKING:
 		
 		if not anim.is_playing() or anim.current_animation != "Attack":
 
@@ -176,3 +220,12 @@ func bounce_on_head(body: Node2D):
 	if body.is_in_group("players"):
 		if body.prev_vel.y >0:
 			body.velocity.y = body.prev_vel.y * -1
+
+func anim_finished(anim_name):
+	if anim_name == "Hurt":
+		hurting = false
+	elif anim_name == "Die":
+		delete_enemy = true
+
+func despawn_enemy():
+	enemy.queue_free()
