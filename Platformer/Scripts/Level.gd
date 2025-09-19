@@ -36,7 +36,8 @@ func remove_player(id: int):
 func spawn_player_on_clients(id: int, role: int):
 	var player = player_scene.instantiate()
 	player.name = str(id)
-	player.position = spawn_point.position
+	player.position = spawn_point.position + Vector2(50*role, 0)
+	
 	player.player_role = role
 	print("Player has role ", role)
 	add_child(player)
