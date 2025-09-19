@@ -77,5 +77,5 @@ func _physics_process(delta):
 
 
 func reset_level():
-	Network.switch_to_level(get_tree().current_scene.scene_file_path)
+	Network.reload_level(get_tree().current_scene.scene_file_path)
 	
