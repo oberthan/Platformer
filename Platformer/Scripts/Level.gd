@@ -6,10 +6,11 @@ extends Node2D
 
 var role_counter: int = 1
 
-func _ready():
+func _enter_tree() -> void:
 	rpc("level_loaded")
 	
 var loaded = 0
+
 @rpc("any_peer", "call_local")
 func level_loaded():
 	loaded += 1
