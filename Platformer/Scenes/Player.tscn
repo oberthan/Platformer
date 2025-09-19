@@ -1100,6 +1100,7 @@ script = ExtResource("1_xhfnw")
 cam = NodePath("Camera2D")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.6, 1.6)
 limit_left = 0
 limit_top = 0
 limit_bottom = 0
