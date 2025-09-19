@@ -83,7 +83,13 @@ func unregister_player(id):
 
 @rpc("any_peer", "call_local")
 func switch_to_level(scene_path: String):
+	print("Scene load called")
 	get_tree().change_scene_to_file(scene_path)
+	
+	
+
+func reload_level(scene_path: String):
+	rpc("switch_to_level",scene_path)
 
 # This RPC is called by clients to send their inputs.
 # The server just stores them.
