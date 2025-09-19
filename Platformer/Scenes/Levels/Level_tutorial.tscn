@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://ca4qcbp2s4ee"]
+[gd_scene load_steps=24 format=4 uid="uid://ca4qcbp2s4ee"]
 
 [ext_resource type="Script" uid="uid://b5of1r04aqpn8" path="res://Scripts/Level.gd" id="1_cdhuc"]
 [ext_resource type="PackedScene" uid="uid://chm8q361s8ydj" path="res://Scenes/Player.tscn" id="2_to0hn"]
@@ -14,9 +14,10 @@
 [ext_resource type="PackedScene" uid="uid://n82m4mysmsm5" path="res://Scenes/Enemy.tscn" id="12_l27g4"]
 [ext_resource type="Texture2D" uid="uid://i3xp37u45mni" path="res://Resources/Textures/Lantern.png" id="12_sxjet"]
 [ext_resource type="Texture2D" uid="uid://bkxgtquprto47" path="res://Resources/Textures/2d_lights_and_shadows_neutral_point_light.webp" id="13_l5rnt"]
+[ext_resource type="Script" path="res://Scripts/enimies.gd" id="14_l5rnt"]
 [ext_resource type="Texture2D" uid="uid://bvbm7p1p8xod8" path="res://Resources/Textures/space.png" id="15_igqva"]
 [ext_resource type="Texture2D" uid="uid://q24xj6nn8nw7" path="res://Resources/Textures/a_d.png" id="15_l5rnt"]
-[ext_resource type="Script" uid="uid://ckqcx8hchnd6a" path="res://Scripts/enimies.gd" id="14_l5rnt"]
+[ext_resource type="Texture2D" uid="uid://nh6fg1u7ncnw" path="res://Resources/Textures/j.png" id="16_arnaq"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_igqva"]
 light_mode = 1
@@ -32,6 +33,9 @@ light_mode = 1
 font_size = 32
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_my1nk"]
+light_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_58cud"]
 light_mode = 1
 
 [node name="Level_tutorial" type="Node2D"]
@@ -152,6 +156,23 @@ text = "Press            to jump "
 label_settings = SubResource("LabelSettings_igqva")
 vertical_alignment = 1
 
+[node name="J" type="Sprite2D" parent="TileMapLayer/Accessories"]
+material = SubResource("CanvasItemMaterial_58cud")
+position = Vector2(2904, 383)
+scale = Vector2(1.405, 1.405)
+texture = ExtResource("16_arnaq")
+
+[node name="Label" type="Label" parent="TileMapLayer/Accessories/J"]
+material = SubResource("CanvasItemMaterial_l5rnt")
+offset_left = -39.1459
+offset_top = -7.11744
+offset_right = 267.854
+offset_bottom = 37.8826
+scale = Vector2(0.33, 0.33)
+text = "Press         to attack"
+label_settings = SubResource("LabelSettings_igqva")
+vertical_alignment = 1
+
 [node name="SpawnPoint" type="Marker2D" parent="."]
 position = Vector2(97, 500)
 
@@ -161,6 +182,11 @@ script = ExtResource("14_l5rnt")
 [node name="Enemy" parent="Enimies" instance=ExtResource("12_l27g4")]
 position = Vector2(3198, 394)
 scale = Vector2(2.5, 2.5)
+
+[node name="Enemy2" parent="Enimies" instance=ExtResource("12_l27g4")]
+position = Vector2(3516, 396)
+scale = Vector2(2.5, 2.5)
+enemy_id = 1
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 position = Vector2(1420, 211)
