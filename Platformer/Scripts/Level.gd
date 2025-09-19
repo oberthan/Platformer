@@ -60,17 +60,18 @@ func _physics_process(delta):
 			if Network.player_inputs.has(player_id):
 				
 				var player_node = Network.players[player_id]
-				if player_node.reset_level:
-					reset_level()
-					player_node.reset_level = false
-				var inputs = Network.player_inputs[player_id]
-				player_node.apply_server_input(inputs, delta)
-				
-				# Reset the jump input after it has been processed.
-				Network.player_inputs[player_id].jump = false
-				Network.player_inputs[player_id].attack1 = false
-				Network.player_inputs[player_id].switch = false
+				if player_node:
+					if player_node.reset_level:
+						reset_level()
+						player_node.reset_level = false
+					var inputs = Network.player_inputs[player_id]
+					player_node.apply_server_input(inputs, delta)
+					
+					# Reset the jump input after it has been processed.
+					Network.player_inputs[player_id].jump = false
+					Network.player_inputs[player_id].attack1 = false
+					Network.player_inputs[player_id].switch = false
 
 func reset_level():
-	get_tree().reload_current_scene()
+	Network.reload_level()
 	
