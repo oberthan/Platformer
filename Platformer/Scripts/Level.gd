@@ -17,6 +17,8 @@ func _ready():
 			if id == 1 and "--server" not in OS.get_cmdline_args():
 				add_player(id)
 			elif id != 1:
+				if len(Network.get_all_player_ids()) != 2:
+					print("Loading server scene with one player")
 				add_player(id)
 
 		multiplayer.peer_connected.connect(add_player)
