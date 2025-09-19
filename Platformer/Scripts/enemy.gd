@@ -48,12 +48,13 @@ func _ready() -> void:
 	health = max_health
 
 func decrease_health(amount):
+	
 	if immunity_timer <= 0:
+		health -= amount
 		if health <= 0:
 			dead = true
 		else:
 			hurting = true
-		health -= amount
 		immunity_timer = 1
 
 func _process(delta):
