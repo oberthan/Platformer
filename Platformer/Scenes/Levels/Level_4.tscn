@@ -13,7 +13,7 @@
 [ext_resource type="TileSet" uid="uid://ds01y885blyr1" path="res://Resources/Ground.tres" id="11_kydo2"]
 [ext_resource type="PackedScene" uid="uid://n82m4mysmsm5" path="res://Scenes/Enemy.tscn" id="12_qkgq3"]
 
-[node name="Level_tutorial" type="Node2D"]
+[node name="Level_4" type="Node2D"]
 script = ExtResource("1_qb40t")
 player_scene = ExtResource("2_qr356")
 

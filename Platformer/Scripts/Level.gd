@@ -6,7 +6,7 @@ extends Node2D
 
 var role_counter: int = 1
 
-func _ready():
+func _enter_tree() -> void:
 	rpc("level_loaded")
 	
 var loaded = 0
