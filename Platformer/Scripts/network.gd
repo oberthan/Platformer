@@ -53,7 +53,7 @@ func _on_peer_connected(id):
 	
 	if connected_players >= max_players:
 		print("Max players reached. Starting game...")
-		rpc("switch_to_level", "res://Scenes/Levels/Level_4.tscn")
+		rpc("switch_to_level", "res://Scenes/Levels/Level_tutorial.tscn")
 
 func _on_peer_disconnected(id):
 	connected_players -= 1
