@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://n82m4mysmsm5" path="res://Scenes/Enemy.tscn" id="12_l27g4"]
 [ext_resource type="Texture2D" uid="uid://i3xp37u45mni" path="res://Resources/Textures/Lantern.png" id="12_sxjet"]
 [ext_resource type="Texture2D" uid="uid://bkxgtquprto47" path="res://Resources/Textures/2d_lights_and_shadows_neutral_point_light.webp" id="13_l5rnt"]
-[ext_resource type="Script" path="res://Scripts/enimies.gd" id="14_l5rnt"]
+[ext_resource type="Script" uid="uid://ckqcx8hchnd6a" path="res://Scripts/enimies.gd" id="14_l5rnt"]
 [ext_resource type="Texture2D" uid="uid://bvbm7p1p8xod8" path="res://Resources/Textures/space.png" id="15_igqva"]
 [ext_resource type="Texture2D" uid="uid://q24xj6nn8nw7" path="res://Resources/Textures/a_d.png" id="15_l5rnt"]
 [ext_resource type="Texture2D" uid="uid://nh6fg1u7ncnw" path="res://Resources/Textures/j.png" id="16_arnaq"]
