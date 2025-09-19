@@ -53,7 +53,7 @@ func _on_peer_connected(id):
 	
 	if connected_players >= max_players:
 		print("Max players reached. Starting game...")
-		rpc("switch_to_level", "res://Scenes/Levels/Level_tutorial.tscn")
+		rpc("switch_to_level", "res://Scenes/Levels/Level_4.tscn")
 
 func _on_peer_disconnected(id):
 	connected_players -= 1
@@ -83,13 +83,7 @@ func unregister_player(id):
 
 @rpc("any_peer", "call_local")
 func switch_to_level(scene_path: String):
-	print("Scene load called")
 	get_tree().change_scene_to_file(scene_path)
-	
-	
-
-func reload_level(scene_path: String):
-	rpc("switch_to_level",scene_path)
 
 # This RPC is called by clients to send their inputs.
 # The server just stores them.
