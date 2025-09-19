@@ -7,6 +7,17 @@ extends Node2D
 var role_counter: int = 1
 
 func _ready():
+	rpc("level_loaded")
+	
+var loaded = 0
+@rpc("any_peer", "call_local")
+func level_loaded():
+	loaded += 1
+	if loaded >= len(Network.get_all_player_ids()):
+		_everyone_ready()
+	
+
+func _everyone_ready():
 	if multiplayer.is_server():
 		# The server does not need a background. Remove it to save resources.
 		var background = find_child("Forest", false) # find_child is not recursive by default
@@ -17,8 +28,6 @@ func _ready():
 			if id == 1 and "--server" not in OS.get_cmdline_args():
 				add_player(id)
 			elif id != 1:
-				if len(Network.get_all_player_ids()) != 2:
-					print("Loading server scene with one player")
 				add_player(id)
 
 		multiplayer.peer_connected.connect(add_player)
