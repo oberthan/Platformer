@@ -61,9 +61,6 @@ func _physics_process(delta):
 				
 				var player_node = Network.players[player_id]
 				if player_node:
-					if player_node.reset_level:
-						reset_level()
-						player_node.reset_level = false
 					var inputs = Network.player_inputs[player_id]
 					player_node.apply_server_input(inputs, delta)
 					
@@ -71,6 +68,12 @@ func _physics_process(delta):
 					Network.player_inputs[player_id].jump = false
 					Network.player_inputs[player_id].attack1 = false
 					Network.player_inputs[player_id].switch = false
+					if player_node.reset_level:
+						print(player_id, " has activated level reset")
+						reset_level()
+						player_node.reset_level = false
+
+
 
 func reset_level():
 	Network.reload_level()

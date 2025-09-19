@@ -191,6 +191,7 @@ func apply_server_input(p_inputs, delta):
 			last_attack = 1
 	
 	if position.y > 1000:
+		print(name, " fell off and died")
 		dead = true
 	
 	if velocity != prev_vel or facing_left != prev_facing or did_attack:
@@ -209,6 +210,7 @@ func decrease_health(amount):
 	health -= amount
 	if health <= 0:
 		dead = true
+		print(name, " was killed")
 	abort_anim = true
 	just_hurt = true
 	rpc("update_health", name, health)
