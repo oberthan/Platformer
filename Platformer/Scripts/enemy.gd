@@ -15,6 +15,8 @@ extends CharacterBody2D
 @onready var health_bar: ProgressBar = $ProgressBar
 @onready var sb = StyleBoxFlat.new()
 
+@export var enemy_id = 0
+
 @export var max_health: float = 70
 var health: float
 
@@ -27,18 +29,18 @@ enum State { IDLE, CHASING, ATTACKING, HURT, DEAD }
 
 var hurting = false
 var dead = false
-var delete_enemy = false
 
 var immunity_timer = 0
  
 func _ready() -> void:
-	anim.animation_finished.connect(anim_finished)
+	
 	set_multiplayer_authority(1)
 	set_physics_process(multiplayer.is_server())
 	$".".add_to_group("enemies")
 	if multiplayer.is_server():
 		area_2d.body_entered.connect(_on_attack_area_body_entered)
 		area_2d.body_exited.connect(_on_attack_area_body_exited)
+		anim.animation_finished.connect(anim_finished)
 		
 
 	_play_anim_from_velocity()
@@ -48,6 +50,8 @@ func _ready() -> void:
 	health = max_health
 
 func decrease_health(amount):
+	if not multiplayer.is_server():
+		return
 	if immunity_timer <= 0:
 		if health <= 0:
 			dead = true
@@ -55,6 +59,7 @@ func decrease_health(amount):
 			hurting = true
 		health -= amount
 		immunity_timer = 1
+		rpc("update_health", enemy_id, health)
 
 func _process(delta):
 	if health >= max_health:
@@ -64,12 +69,11 @@ func _process(delta):
 	health_bar.value = health/max_health*100
 	sb.bg_color = Color.from_hsv(max((health-25)/225.0, 0), 1, 1, 1)
 	
-	if delete_enemy:
-		despawn_enemy()
 
 @export var detection_range = 350
 func _reacquire_target() -> void:
-
+	if not multiplayer.is_server():
+		return
 	var best: Node2D = null
 	var dist = detection_range
 
@@ -162,16 +166,19 @@ func _physics_process(delta: float) -> void:
 
 	_play_anim_from_velocity()
 
-	rpc("_sync_state", global_position, velocity, state)
+	rpc("_sync_state", enemy_id, global_position, velocity, state, $Sprite2D.flip_h)
 
 @rpc("authority", "call_local", "unreliable")
-func _sync_state(pos, vel, enemy_state) -> void:
+func _sync_state(id, pos, vel, enemy_state, direction) -> void:
+	
 	if multiplayer.is_server():
 		return
-	global_position = pos
-	velocity = vel
-	state = enemy_state
-	_play_anim_from_velocity()
+	if id == enemy_id:
+		global_position = pos
+		velocity = vel
+		state = enemy_state
+		$Sprite2D.flip_h = direction
+		_play_anim_from_velocity()
 
 func _play_anim_from_velocity() -> void:
 	if anim == null:
@@ -199,16 +206,23 @@ func _play_anim_from_velocity() -> void:
 
 
 func _on_attack_area_body_entered(body: Node) -> void:
+	if not multiplayer.is_server():
+		return
 	if body.is_in_group("players"):
 		attacking += 1
 
 func _on_attack_area_body_exited(body: Node) -> void:
+	if not multiplayer.is_server():
+		return
 	if body.is_in_group("players"):
 		attacking -= 1
 
 
 
 func _check_attack_landed():
+	if not multiplayer.is_server():
+		return
+	
 	var bodies = area_2d.get_overlapping_bodies()
 	for body in bodies:
 		if body.is_in_group("players"):
@@ -217,15 +231,26 @@ func _check_attack_landed():
 			body.decrease_health(damage)
 
 func bounce_on_head(body: Node2D):
+	if not multiplayer.is_server():
+		return
 	if body.is_in_group("players"):
 		if body.prev_vel.y >0:
 			body.velocity.y = body.prev_vel.y * -1
 
 func anim_finished(anim_name):
+	if not multiplayer.is_server():
+		return
 	if anim_name == "Hurt":
 		hurting = false
 	elif anim_name == "Die":
-		delete_enemy = true
+		rpc("despawn_enemy", enemy_id)
 
-func despawn_enemy():
-	enemy.queue_free()
+@rpc("any_peer", "call_local")
+func update_health(id, hp):
+	if id == enemy_id:
+		health = hp
+
+@rpc("any_peer", "call_local")
+func despawn_enemy(id):
+	if id == enemy_id:
+		enemy.queue_free()
