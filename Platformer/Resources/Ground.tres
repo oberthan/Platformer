@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=20 format=3 uid="uid://ds01y885blyr1"]
+[gd_resource type="TileSet" load_steps=21 format=3 uid="uid://ds01y885blyr1"]
 
 [ext_resource type="Texture2D" uid="uid://p5w4th1isgnd" path="res://Resources/Textures/texture_sheet.png" id="1_vanee"]
 [ext_resource type="Texture2D" uid="uid://cb04g3t35xp26" path="res://Resources/Textures/Tileset_ground.png" id="2_vanee"]
@@ -23,6 +23,8 @@ polygon = PackedVector2Array(-8, -3.0576, 8, -3.23746, 8, 8, -8, 8)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_vanee"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vanee"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_4m6ll"]
 polygon = PackedVector2Array(-8, -3.0576, 2.1583, -3.23746, 2.51802, 8, -8, 8)
@@ -268,7 +270,12 @@ texture = ExtResource("1_vanee")
 10:7/0 = 0
 10:7/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_f5sob")
 10:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, -3.23746, -8, -2.1583)
+11:7/next_alternative_id = 2
 11:7/0 = 0
+11:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, -8, -8, 8, -8, 8, 8)
+11:7/1 = 1
+11:7/1/material = SubResource("CanvasItemMaterial_vanee")
+11:7/1/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 12:7/0 = 0
 13:7/0 = 0
 11:1/next_alternative_id = 2

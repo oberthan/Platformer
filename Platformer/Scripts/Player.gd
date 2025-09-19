@@ -15,7 +15,9 @@ const smoke = preload("res://Scenes/Smoke.tscn")
 var SPEED = 300.0
 var JUMP_VELOCITY = -425.0
 var facing_left = true
-var health: float = 100
+@export var health: float = 100
+@export var dead = false
+@export var reset_level = false
 var player_id = 1
 @export var abort_anim = false
 @export var just_hurt = false
@@ -145,8 +147,7 @@ func spawn_smoke(pos: Vector2) -> void:
 	smoke_element_left.flip_h = true
 	get_parent().add_child(smoke_element)
 	get_parent().add_child(smoke_element_left)
-	
-
+		
 # This function is only ever executed on the server.
 func apply_server_input(p_inputs, delta):
 	if not is_on_floor():
@@ -188,18 +189,18 @@ func apply_server_input(p_inputs, delta):
 			last_attack = 0
 		elif false:
 			last_attack = 1
-			
+	
+	if position.y > 1000:
+		print(name, " fell off and died")
+		dead = true
 	
 	if velocity != prev_vel or facing_left != prev_facing or did_attack:
 		prev_vel = velocity if not did_attack else velocity + Vector2(1,1)
 		prev_facing = facing_left
-		rpc("update_animation", name, velocity, is_on_floor(), facing_left, did_attack, last_attack, abort_anim, just_hurt)
+		rpc("update_animation", name, velocity, is_on_floor(), facing_left, did_attack, last_attack, abort_anim, just_hurt, dead)
 
 
-	if position.y > 1000:
-		position.y = -100
-		velocity.y = 0
-		decrease_health(35)
+
 
 	rpc("update_client_state", position, velocity)
 
@@ -207,6 +208,9 @@ func apply_server_input(p_inputs, delta):
 
 func decrease_health(amount):
 	health -= amount
+	if health <= 0:
+		dead = true
+		print(name, " was killed")
 	abort_anim = true
 	just_hurt = true
 	rpc("update_health", name, health)
@@ -221,8 +225,10 @@ func update_client_state(p_position, p_velocity):
 		velocity = server_velocity
 
 @rpc("any_peer", "call_local")
-func update_animation(id, player_velocity, on_floor, flip, is_attack, attack_type,abort, hurt):
+func update_animation(id, player_velocity, on_floor, flip, is_attack, attack_type,abort, hurt, is_dead):
 	if name == id:
+		
+		animation_tree["parameters/conditions/is_dead"] = is_dead
 		
 		animation_tree["parameters/Attack/conditions/abort"] = abort
 		animation_tree["parameters/conditions/hurt"] = hurt
@@ -234,20 +240,24 @@ func update_animation(id, player_velocity, on_floor, flip, is_attack, attack_typ
 		animation_tree["parameters/conditions/is_walking"] = walking
 		animation_tree["parameters/Attack/conditions/is_walking"] = walking
 		
-		animation_tree["parameters/conditions/jump"] = player_velocity.y == JUMP_VELOCITY
-		if is_attack:
-			print("attack")
-		animation_tree["parameters/conditions/attack"] = is_attack
-		
-
 		animation_tree["parameters/Attack/conditions/hit_attack"] = attack_type == 0
 		animation_tree["parameters/Attack/conditions/throw_attack"] = attack_type == 1
+
+		animation_tree["parameters/conditions/attack"] = is_attack
+		
+		animation_tree["parameters/conditions/jump"] = player_velocity.y == JUMP_VELOCITY
+
+		
+
+
 		
 		
 		#Movement
 		animation_tree["parameters/Idle/blend_position"] = -1 if flip else 1
 		animation_tree["parameters/Jump/blend_position"] = -1 if flip else 1
 		animation_tree["parameters/Walk/blend_position"] = -1 if flip else 1
+		animation_tree["parameters/Hurt/blend_position"] = -1 if flip else 1
+		animation_tree["parameters/Death/blend_position"] = -1 if flip else 1
 		
 		#Attack
 		animation_tree["parameters/Attack/Standing/blend_position"] = -1 if flip else 1

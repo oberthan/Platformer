@@ -1,0 +1,10 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=2 format=3 uid="uid://dhvh4kwwdp375"]
+
+[ext_resource type="AudioStream" uid="uid://c31wh7jjapdki" path="res://Resources/Sounds/Grass/rustling-grass-2-101283.mp3" id="1_vfj1l"]
+
+[resource]
+playback_mode = 1
+random_pitch = 1.18
+random_volume_offset_db = 1.19
+streams_count = 1
+stream_0/stream = ExtResource("1_vfj1l")
