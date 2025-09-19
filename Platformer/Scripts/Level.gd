@@ -15,6 +15,7 @@ var loaded = 0
 @rpc("any_peer", "call_local")
 func level_loaded():
 	loaded += 1
+	print(loaded, " is now loaded")
 	if loaded >= len(Network.get_all_player_ids()):
 		_everyone_ready()
 	
@@ -26,12 +27,17 @@ func _everyone_ready():
 		if background:
 			background.queue_free()
 		
+		# Remove old players
+		for old in get_tree().get_nodes_in_group("players"):
+			old.queue_free()
+		
 		for id in Network.get_all_player_ids():
 			if id == 1 and "--server" not in OS.get_cmdline_args():
 				add_player(id)
 			elif id != 1:
 				add_player(id)
-
+		if len(Network.get_all_player_ids()) > 4:
+			print("more than four")
 		multiplayer.peer_connected.connect(add_player)
 		#multiplayer.peer_disconnected.connect(remove_player)
 
