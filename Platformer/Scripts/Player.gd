@@ -92,7 +92,6 @@ func _process(delta: float) -> void:
 var coyote_timer = 0
 var coyote_time = 0.150
 
-var attack_timer = Time.get_ticks_msec()
 func _physics_process(delta: float) -> void:
 	# The authoritative client sends its inputs to the server.
 	
@@ -102,8 +101,6 @@ func _physics_process(delta: float) -> void:
 		inputs.right = Input.is_action_pressed("right")
 		inputs.jump = Input.is_action_just_pressed("jump")
 		inputs.attack1 = Input.is_action_just_pressed("attack1")
-		if inputs.attack1:
-			attack_timer = Time.get_ticks_msec()
 		inputs.switch = Input.is_action_just_pressed("switch_players")
 		Network.rpc_id(1, "receive_player_input", player_role, inputs)
 
@@ -197,13 +194,13 @@ func apply_server_input(p_inputs, delta):
 	if velocity != prev_vel or facing_left != prev_facing or did_attack:
 		prev_vel = velocity if not did_attack else velocity + Vector2(1,1)
 		prev_facing = facing_left
+		print(dead)
 		rpc("update_animation", name, velocity, is_on_floor(), facing_left, did_attack, last_attack, abort_anim, just_hurt, dead)
 
 
 	if position.y > 1000:
-		position.y = -100
-		velocity.y = 0
-		decrease_health(35)
+		dead = true
+		print("Fell off map")
 
 	rpc("update_client_state", position, velocity)
 
@@ -213,6 +210,7 @@ func decrease_health(amount):
 	health -= amount
 	if health <= 0:
 		dead = true
+		print("Should be dead: ", dead)
 	abort_anim = true
 	just_hurt = true
 	rpc("update_health", name, health)
@@ -231,6 +229,8 @@ func update_animation(id, player_velocity, on_floor, flip, is_attack, attack_typ
 	if name == id:
 		
 		animation_tree["parameters/conditions/is_dead"] = is_dead
+		if is_dead:
+			print("Womp wopmp")
 		
 		animation_tree["parameters/Attack/conditions/abort"] = abort
 		animation_tree["parameters/conditions/hurt"] = hurt
@@ -244,9 +244,7 @@ func update_animation(id, player_velocity, on_floor, flip, is_attack, attack_typ
 		
 		animation_tree["parameters/Attack/conditions/hit_attack"] = attack_type == 0
 		animation_tree["parameters/Attack/conditions/throw_attack"] = attack_type == 1
-		
-		if is_attack:
-			print("attack time: ", Time.get_ticks_msec() - attack_timer)
+
 		animation_tree["parameters/conditions/attack"] = is_attack
 		
 		animation_tree["parameters/conditions/jump"] = player_velocity.y == JUMP_VELOCITY

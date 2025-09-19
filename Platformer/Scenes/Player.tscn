@@ -705,6 +705,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_lslt6"]
 resource_name = "death_left"
+length = 0.8
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -756,6 +757,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_ulo2v"]
 resource_name = "death_right"
+length = 0.8
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1084,7 +1086,7 @@ states/Jump/position = Vector2(682.333, 61.6667)
 states/Walk/node = SubResource("AnimationNodeBlendSpace1D_o3h8g")
 states/Walk/position = Vector2(629.667, 269)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_1e7my"), "Idle", "Jump", SubResource("AnimationNodeStateMachineTransition_arntx"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_lslt6"), "Walk", "Jump", SubResource("AnimationNodeStateMachineTransition_ulo2v"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_1iu4k"), "Jump", "Idle", SubResource("AnimationNodeStateMachineTransition_m0x7a"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_u7x0b"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_utwlt"), "Walk", "Attack", SubResource("AnimationNodeStateMachineTransition_kih0c"), "Jump", "Attack", SubResource("AnimationNodeStateMachineTransition_lyrkg"), "Attack", "Walk", SubResource("AnimationNodeStateMachineTransition_c43xd"), "Idle", "Hurt", SubResource("AnimationNodeStateMachineTransition_8flut"), "Jump", "Hurt", SubResource("AnimationNodeStateMachineTransition_avx33"), "Walk", "Hurt", SubResource("AnimationNodeStateMachineTransition_rxg2u"), "Attack", "Hurt", SubResource("AnimationNodeStateMachineTransition_xixlo"), "Hurt", "Idle", SubResource("AnimationNodeStateMachineTransition_52ee3"), "Hurt", "Death", SubResource("AnimationNodeStateMachineTransition_glx4g"), "Jump", "Death", SubResource("AnimationNodeStateMachineTransition_bfbt0"), "Idle", "Death", SubResource("AnimationNodeStateMachineTransition_wosd6"), "Attack", "Death", SubResource("AnimationNodeStateMachineTransition_hkrn1"), "Walk", "Death", SubResource("AnimationNodeStateMachineTransition_wpo1r")]
-graph_offset = Vector2(-114, 43.1523)
+graph_offset = Vector2(-107, 3.1523)
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_yoq75"]
 playback_mode = 1
