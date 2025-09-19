@@ -92,6 +92,7 @@ func _process(delta: float) -> void:
 var coyote_timer = 0
 var coyote_time = 0.150
 
+var attack_timer = Time.get_ticks_msec()
 func _physics_process(delta: float) -> void:
 	# The authoritative client sends its inputs to the server.
 	
@@ -102,7 +103,7 @@ func _physics_process(delta: float) -> void:
 		inputs.jump = Input.is_action_just_pressed("jump")
 		inputs.attack1 = Input.is_action_just_pressed("attack1")
 		if inputs.attack1:
-			print("Attack1 pressed")
+			attack_timer = Time.get_ticks_msec()
 		inputs.switch = Input.is_action_just_pressed("switch_players")
 		Network.rpc_id(1, "receive_player_input", player_role, inputs)
 
@@ -241,14 +242,18 @@ func update_animation(id, player_velocity, on_floor, flip, is_attack, attack_typ
 		animation_tree["parameters/conditions/is_walking"] = walking
 		animation_tree["parameters/Attack/conditions/is_walking"] = walking
 		
-		animation_tree["parameters/conditions/jump"] = player_velocity.y == JUMP_VELOCITY
-		if is_attack:
-			print("attack")
-		animation_tree["parameters/conditions/attack"] = is_attack
-		
-
 		animation_tree["parameters/Attack/conditions/hit_attack"] = attack_type == 0
 		animation_tree["parameters/Attack/conditions/throw_attack"] = attack_type == 1
+		
+		if is_attack:
+			print("attack time: ", Time.get_ticks_msec() - attack_timer)
+		animation_tree["parameters/conditions/attack"] = is_attack
+		
+		animation_tree["parameters/conditions/jump"] = player_velocity.y == JUMP_VELOCITY
+
+		
+
+
 		
 		
 		#Movement
