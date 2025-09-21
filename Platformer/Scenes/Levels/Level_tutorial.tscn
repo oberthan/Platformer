@@ -229,7 +229,7 @@ offset_top = 237.0
 offset_right = 1927.0
 offset_bottom = 282.0
 scale = Vector2(0.681, 0.681)
-text = "Help eachother"
+text = "Help each other"
 label_settings = SubResource("LabelSettings_l1wyn")
 script = ExtResource("16_58cud")
 
