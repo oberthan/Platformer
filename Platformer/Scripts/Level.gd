@@ -22,6 +22,9 @@ func level_loaded():
 
 func _everyone_ready():
 	if multiplayer.is_server():
+		if Network.first_load:
+			Network.first_load = false
+			reset_level()
 		# The server does not need a background. Remove it to save resources.
 		var background = find_child("Forest", false) # find_child is not recursive by default
 		if background:

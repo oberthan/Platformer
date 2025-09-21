@@ -11,6 +11,7 @@ var player_inputs = {} # Stores the latest inputs for each player
 var connected_players = 0
 var max_players = 2
 
+var first_load = true
 
 func _ready():
 	if "--server" in OS.get_cmdline_args():
@@ -82,14 +83,15 @@ func unregister_player(id):
 	players.erase(id)
 
 @rpc("any_peer", "call_local")
-func switch_to_level(scene_path: String):
+func switch_to_level(scene_path: String, switch: bool = true):
 	print("Scene load called")
+	first_load = switch
 	get_tree().change_scene_to_file(scene_path)
 	
 	
 
 func reload_level(scene_path: String):
-	rpc("switch_to_level",scene_path)
+	rpc("switch_to_level",scene_path, false)
 
 # This RPC is called by clients to send their inputs.
 # The server just stores them.
