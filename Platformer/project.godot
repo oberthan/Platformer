@@ -15,7 +15,8 @@ run/main_scene="uid://vv5bwj2wivhg"
 config/features=PackedStringArray("4.4", "Forward Plus")
 run/max_fps=60
 run/low_processor_mode_sleep_usec=3000
-boot_splash/image="uid://ceompiwc4eshq"
+boot_splash/image="uid://dqftkliqqjmcu"
+config/icon="uid://b077m5k5e3vsu"
 
 [autoload]
 
