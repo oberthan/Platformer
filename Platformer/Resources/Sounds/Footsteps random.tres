@@ -1,6 +1,6 @@
 [gd_resource type="AudioStreamRandomizer" load_steps=2 format=3 uid="uid://dhvh4kwwdp375"]
 
-[ext_resource type="AudioStream" uid="uid://c31wh7jjapdki" path="res://Resources/Sounds/Grass/rustling-grass-2-101283.mp3" id="1_vfj1l"]
+[ext_resource type="AudioStream" uid="uid://clk5ul3ks8f0q" path="res://Resources/Sounds/Grass/rustling-grass-2-101283.ogg" id="1_vfj1l"]
 
 [resource]
 playback_mode = 1
