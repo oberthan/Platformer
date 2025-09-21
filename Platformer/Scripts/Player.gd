@@ -91,7 +91,7 @@ func _process(delta: float) -> void:
 	sb.bg_color = Color.from_hsv(max((health-25)/225.0, 0), 1, 1, 1)
 
 var coyote_timer = 0
-var coyote_time = 0.150
+var coyote_time = 0.1
 
 func _physics_process(delta: float) -> void:
 	# The authoritative client sends its inputs to the server.

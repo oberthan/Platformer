@@ -105,7 +105,7 @@ func _physics_process(delta: float) -> void:
 		if attacking > 0:
 			state = State.ATTACKING
 		elif state != State.ATTACKING:
-			if distance < 50: # "close" but not attacking
+			if distance < 50 and !dead: # "close" but not attacking
 				state = State.IDLE
 			elif distance < detection_range:
 				state = State.CHASING
