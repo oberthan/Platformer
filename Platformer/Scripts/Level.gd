@@ -22,9 +22,7 @@ func level_loaded():
 
 func _everyone_ready():
 	if multiplayer.is_server():
-		if Network.first_load:
-			Network.first_load = false
-			reset_level()
+
 		# The server does not need a background. Remove it to save resources.
 		var background = find_child("Forest", false) # find_child is not recursive by default
 		if background:
@@ -33,6 +31,8 @@ func _everyone_ready():
 		# Remove old players
 		for old in get_tree().get_nodes_in_group("players"):
 			old.queue_free()
+		
+
 		
 		for id in Network.get_all_player_ids():
 			if id == 1 and "--server" not in OS.get_cmdline_args():
@@ -43,6 +43,9 @@ func _everyone_ready():
 			print("more than four")
 		multiplayer.peer_connected.connect(add_player)
 		#multiplayer.peer_disconnected.connect(remove_player)
+		
+		if Network.first_load:
+			reset_level()
 
 # This function is only called on the server
 func add_player(id: int):
