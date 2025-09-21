@@ -276,3 +276,20 @@ func update_health(id, hp):
 		health = hp
 		
 		
+
+
+func play_sound(sound: AudioStream, pitch: float = 1):
+	if sound == null:
+		return
+		# Create a temporary AudioStreamPlayer2D
+	var temp_player = AudioStreamPlayer2D.new()
+	add_child(temp_player)
+	temp_player.stream = sound
+	temp_player.pitch_scale = pitch
+	temp_player.volume_db = -8.43
+	temp_player.max_distance = 135
+	temp_player.play()
+
+	
+	# Queue free when done
+	temp_player.connect("finished", temp_player.queue_free)
