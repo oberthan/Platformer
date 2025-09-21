@@ -1,13 +1,14 @@
-[gd_scene load_steps=20 format=3 uid="uid://n82m4mysmsm5"]
+[gd_scene load_steps=21 format=3 uid="uid://n82m4mysmsm5"]
 
 [ext_resource type="Texture2D" uid="uid://di5tbj02670aa" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Idle.png" id="1_m1htj"]
 [ext_resource type="Script" uid="uid://ba6ll0y42t54c" path="res://Scripts/enemy.gd" id="1_mo1ky"]
+[ext_resource type="AudioStream" uid="uid://desupfqv1a4kf" path="res://Resources/Sounds/alien-269987.mp3" id="2_0o0ue"]
 [ext_resource type="Texture2D" uid="uid://dsphfa71k0xt3" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Attack.png" id="2_6bs3c"]
+[ext_resource type="AudioStream" uid="uid://dslwhwly3tr7o" path="res://Resources/Sounds/monster-snarl-3-105348.mp3" id="3_6s1gy"]
 [ext_resource type="Texture2D" uid="uid://blt78x8du0lqh" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Die.png" id="3_uoxpr"]
 [ext_resource type="Texture2D" uid="uid://cabkkerd4cya2" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Hit.png" id="4_idouy"]
+[ext_resource type="AudioStream" uid="uid://rmse6ykhetev" path="res://Resources/Mushroom/Mushroom footsteps.tres" id="4_uihya"]
 [ext_resource type="Texture2D" uid="uid://eg5l7r0n5o3o" path="res://Resources/Mushroom/Mushroom with VFX/Mushroom-Run.png" id="6_0o0ue"]
-[ext_resource type="AudioStream" uid="uid://bxpkcqgnhanoe" path="res://Resources/Mushroom/Mushroom-footsteps.tres" id="7_uoxpr"]
-[ext_resource type="Script" uid="uid://cj8s1vxfa6ui6" path="res://Scripts/audio_stream_player_2d.gd" id="8_idouy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uoxpr"]
 size = Vector2(18, 30)
@@ -120,6 +121,27 @@ tracks/2/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 }
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [ExtResource("2_0o0ue"), 1.3],
+"method": &"play_sound"
+}]
+}
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_idouy"]
+playback_mode = 1
+random_pitch = 1.19
+random_volume_offset_db = 0.49
+streams_count = 1
+stream_0/stream = ExtResource("3_6s1gy")
 
 [sub_resource type="Animation" id="Animation_6s1gy"]
 resource_name = "Hurt"
@@ -159,6 +181,20 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [SubResource("AudioStreamRandomizer_idouy"), 1.5],
+"method": &"play_sound"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_uoxpr"]
@@ -202,9 +238,6 @@ tracks/2/keys = {
 "values": [0, 1, 2, 3, 4, 5, 6]
 }
 
-[sub_resource type="Resource" id="Resource_6bs3c"]
-metadata/__load_path__ = "res://Resources/Mushroom/Mushroom footsteps.tres"
-
 [sub_resource type="Animation" id="Animation_6bs3c"]
 length = 0.001
 tracks/0/type = "value"
@@ -246,22 +279,10 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("AudioStreamPlayer2D:stream")
+tracks/3/path = NodePath(".:state")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [SubResource("Resource_6bs3c")]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath(".:state")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -311,31 +332,19 @@ tracks/2/keys = {
 tracks/3/type = "method"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("AudioStreamPlayer2D")
+tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
-"args": [],
+"args": [ExtResource("4_uihya"), 1.0],
 "method": &"play_sound"
 }, {
-"args": [],
+"args": [ExtResource("4_uihya"), 1.0],
 "method": &"play_sound"
 }]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("AudioStreamPlayer2D:stream")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("7_uoxpr")]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uihya"]
@@ -353,6 +362,9 @@ size = Vector2(16, 4.5)
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_mo1ky")
+sfx_die = ExtResource("2_0o0ue")
+sfx_hurt = ExtResource("3_6s1gy")
+sfx_footstep = ExtResource("4_uihya")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_m1htj")
@@ -387,12 +399,5 @@ libraries = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BounceTrigger"]
 shape = SubResource("RectangleShape2D_6bs3c")
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-position = Vector2(0, 38)
-volume_db = -8.432
-max_distance = 555.0
-max_polyphony = 2
-script = ExtResource("8_idouy")
 
 [connection signal="body_entered" from="BounceTrigger" to="." method="bounce_on_head"]

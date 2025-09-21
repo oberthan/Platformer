@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://cpw6cn0rgqaob"]
+[gd_scene load_steps=12 format=4 uid="uid://cpw6cn0rgqaob"]
 
 [ext_resource type="Script" uid="uid://b5of1r04aqpn8" path="res://Scripts/Level.gd" id="1_qb40t"]
 [ext_resource type="PackedScene" uid="uid://chm8q361s8ydj" path="res://Scenes/Player.tscn" id="2_qr356"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://c4t5racpmtfdn" path="res://assetpack/parallax/forest/forest_mountain.png" id="6_kgo3b"]
 [ext_resource type="Texture2D" uid="uid://s5eh4x2hqlhl" path="res://assetpack/parallax/forest/forest_back.png" id="7_nwsqn"]
 [ext_resource type="Texture2D" uid="uid://txao6pa83qtg" path="res://assetpack/parallax/forest/forest_mid.png" id="8_yq28s"]
-[ext_resource type="Texture2D" uid="uid://c1sh41531duqj" path="res://assetpack/parallax/forest/forest_long.png" id="9_dvp7d"]
 [ext_resource type="Texture2D" uid="uid://spveuaws47cc" path="res://assetpack/parallax/forest/forest_short.png" id="10_dt8bd"]
 [ext_resource type="TileSet" uid="uid://ds01y885blyr1" path="res://Resources/Ground.tres" id="11_kydo2"]
 [ext_resource type="PackedScene" uid="uid://n82m4mysmsm5" path="res://Scenes/Enemy.tscn" id="12_qkgq3"]
@@ -18,64 +17,54 @@ script = ExtResource("1_qb40t")
 player_scene = ExtResource("2_qr356")
 
 [node name="Background" type="Node2D" parent="."]
+position = Vector2(1920, 540)
 script = ExtResource("3_xnvqf")
 
 [node name="Sky" type="Parallax2D" parent="Background"]
-scale = Vector2(0.5, 0.5)
 autoscroll = Vector2(2.5, 0)
-repeat_times = 4
+repeat_times = 2
 
 [node name="Sky" type="Sprite2D" parent="Background/Sky"]
+position = Vector2(0, -302)
 texture = ExtResource("4_x82cs")
 region_rect = Rect2(9, 6, 1891, 1195)
 
 [node name="Parallax2D4" type="Parallax2D" parent="Background"]
-scale = Vector2(0.25, 0.25)
-repeat_times = 4
+repeat_times = 2
 
 [node name="Moon" type="Sprite2D" parent="Background/Parallax2D4"]
+position = Vector2(809, -560)
 texture = ExtResource("5_qwpk0")
 
 [node name="Parallax2D5" type="Parallax2D" parent="Background"]
-scale = Vector2(0.25, 0.25)
-repeat_times = 4
+repeat_times = 2
 
 [node name="Mountain" type="Sprite2D" parent="Background/Parallax2D5"]
+position = Vector2(0, -40)
 texture = ExtResource("6_kgo3b")
-region_enabled = true
 region_rect = Rect2(0, 0, 3797.5, 2400)
 
 [node name="Parallax2D" type="Parallax2D" parent="Background"]
-scale = Vector2(0.25, 0.25)
-repeat_times = 4
+repeat_times = 2
 
 [node name="Back" type="Sprite2D" parent="Background/Parallax2D"]
+position = Vector2(0, 163.5)
 texture = ExtResource("7_nwsqn")
+region_rect = Rect2(0, 0, 3800, 2400)
 
 [node name="Parallax2D3" type="Parallax2D" parent="Background"]
-scale = Vector2(0.25, 0.25)
-repeat_times = 4
+repeat_times = 2
 
 [node name="Mid" type="Sprite2D" parent="Background/Parallax2D3"]
+position = Vector2(0, 348.5)
 texture = ExtResource("8_yq28s")
 
 [node name="Parallax2D2" type="Parallax2D" parent="Background"]
-scale = Vector2(0.5, 0.5)
-repeat_times = 4
+repeat_times = 2
 
 [node name="Long" type="Sprite2D" parent="Background/Parallax2D2"]
-texture = ExtResource("9_dvp7d")
-
-[node name="Parallax2D6" type="Parallax2D" parent="Background"]
-visible = false
-scale = Vector2(0.25, 0.25)
-scroll_offset = Vector2(0, 50)
-repeat_times = 4
-
-[node name="Short" type="Sprite2D" parent="Background/Parallax2D6"]
+position = Vector2(0, 273)
 texture = ExtResource("10_dt8bd")
-region_enabled = true
-region_rect = Rect2(0, 0, 3792, 2400)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 scale = Vector2(2.5, 2.5)

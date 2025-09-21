@@ -234,8 +234,8 @@ func bounce_on_head(body: Node2D):
 	if not multiplayer.is_server():
 		return
 	if body.is_in_group("players"):
-		if body.prev_vel.y >0:
-			body.velocity.y = body.prev_vel.y * -1
+		if body.last_tick_vel.y >5:
+			body.velocity.y = body.last_tick_vel.y * -1
 
 func anim_finished(anim_name):
 	if not multiplayer.is_server():
@@ -254,3 +254,27 @@ func update_health(id, hp):
 func despawn_enemy(id):
 	if id == enemy_id:
 		enemy.queue_free()
+		
+
+@export var sfx_attack: AudioStream
+@export var sfx_die: AudioStream
+@export var sfx_hurt: AudioStream
+@export var sfx_footstep: AudioStream
+
+@onready var sfx_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
+
+func play_sound(sound: AudioStream, pitch: float):
+	if sound == null:
+		return
+		# Create a temporary AudioStreamPlayer2D
+	var temp_player = AudioStreamPlayer2D.new()
+	add_child(temp_player)
+	temp_player.stream = sound
+	temp_player.pitch_scale = pitch
+	temp_player.volume_db = -8.43
+	temp_player.max_distance = 555
+	temp_player.play()
+
+	
+	# Queue free when done
+	temp_player.connect("finished", temp_player.queue_free)

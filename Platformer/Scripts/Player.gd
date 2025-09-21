@@ -78,6 +78,7 @@ func _ready() -> void:
 	sb.bg_color = Color("00ff00")
 
 var prev_vel = Vector2.ZERO
+var last_tick_vel = Vector2.ZERO
 var prev_facing = false
 
 func _process(delta: float) -> void:
@@ -194,12 +195,14 @@ func apply_server_input(p_inputs, delta):
 		print(name, " fell off and died")
 		dead = true
 	
+	last_tick_vel = prev_vel
+	
 	if velocity != prev_vel or facing_left != prev_facing or did_attack:
 		prev_vel = velocity if not did_attack else velocity + Vector2(1,1)
 		prev_facing = facing_left
 		rpc("update_animation", name, velocity, is_on_floor(), facing_left, did_attack, last_attack, abort_anim, just_hurt, dead)
 
-
+	
 
 
 	rpc("update_client_state", position, velocity)

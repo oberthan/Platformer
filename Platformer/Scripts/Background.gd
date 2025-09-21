@@ -31,7 +31,7 @@ func _init_parallax():
 		push_warning("Parallax background has no camera to follow.")
 		return
 	
-	var cam_height = get_viewport_rect().size.y
+	var cam_height = get_viewport_rect().size.y / cam.zoom.y
 	
 	var i := 0
 	for child in get_children():
@@ -53,13 +53,14 @@ func _init_parallax():
 				
 			if tex_size.y == 0:
 				continue
-			var scale_factor = cam_height / tex_size.y
-			child.scale = Vector2(scale_factor, scale_factor)
+			var scale_factor = cam_height / 1200
+			#child.scale = Vector2(scale_factor, scale_factor)
 
-			child.repeat_size.x = tex_size.x
-			
-			position = tex_size*child.scale*0.5
 
+			child.repeat_size.x = 1900
+			child.scale = Vector2(scale_factor,scale_factor)
+			child.scroll_offset = cam.global_position * child.scroll_scale
+		
 		# Legacy system
 		elif child is ParallaxLayer:
 			child.motion_scale = speed
