@@ -16,7 +16,7 @@
 [ext_resource type="Script" uid="uid://ckqcx8hchnd6a" path="res://Scripts/enimies.gd" id="14_l5rnt"]
 [ext_resource type="Texture2D" uid="uid://bvbm7p1p8xod8" path="res://Resources/Textures/space.png" id="15_igqva"]
 [ext_resource type="Texture2D" uid="uid://q24xj6nn8nw7" path="res://Resources/Textures/a_d.png" id="15_l5rnt"]
-[ext_resource type="Script" uid="uid://djsqaypbdisy5" path="res://Scenes/Levels/e_switch_label.gd" id="16_58cud"]
+[ext_resource type="Script" path="res://Scenes/Levels/e_switch_label.gd" id="16_58cud"]
 [ext_resource type="Texture2D" uid="uid://nh6fg1u7ncnw" path="res://Resources/Textures/j.png" id="16_arnaq"]
 [ext_resource type="Texture2D" uid="uid://dej1awcaox5l3" path="res://Resources/Textures/e.png" id="17_2vbue"]
 
