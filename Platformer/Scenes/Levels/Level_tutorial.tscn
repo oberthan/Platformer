@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://ca4qcbp2s4ee"]
+[gd_scene load_steps=29 format=4 uid="uid://ca4qcbp2s4ee"]
 
 [ext_resource type="Script" uid="uid://b5of1r04aqpn8" path="res://Scripts/Level.gd" id="1_cdhuc"]
 [ext_resource type="PackedScene" uid="uid://chm8q361s8ydj" path="res://Scenes/Player.tscn" id="2_to0hn"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" path="res://Scenes/Levels/e_switch_label.gd" id="16_58cud"]
 [ext_resource type="Texture2D" uid="uid://nh6fg1u7ncnw" path="res://Resources/Textures/j.png" id="16_arnaq"]
 [ext_resource type="Texture2D" uid="uid://dej1awcaox5l3" path="res://Resources/Textures/e.png" id="17_2vbue"]
+[ext_resource type="Texture2D" uid="uid://ccp8qiu1gfriv" path="res://Resources/Textures/Help_others.png" id="18_2vbue"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_igqva"]
 light_mode = 1
@@ -45,11 +46,15 @@ light_mode = 1
 [sub_resource type="LabelSettings" id="LabelSettings_l1wyn"]
 font_size = 32
 
+[sub_resource type="LabelSettings" id="LabelSettings_2vbue"]
+font_size = 41
+
 [node name="Level_tutorial" type="Node2D"]
 script = ExtResource("1_cdhuc")
 player_scene = ExtResource("2_to0hn")
 
 [node name="Background" type="Node2D" parent="."]
+z_index = -1
 position = Vector2(1920, 540)
 script = ExtResource("3_sxjet")
 
@@ -233,12 +238,18 @@ text = "Help each other"
 label_settings = SubResource("LabelSettings_l1wyn")
 script = ExtResource("16_58cud")
 
-[node name="Sprite2D" type="Sprite2D" parent="TileMapLayer/Accessories/Label"]
+[node name="Switch_Key" type="Sprite2D" parent="TileMapLayer/Accessories/Label"]
 visible = false
 use_parent_material = true
 position = Vector2(107.195, 23.4949)
 scale = Vector2(2.142, 2.142)
 texture = ExtResource("17_2vbue")
+
+[node name="help others" type="Sprite2D" parent="TileMapLayer/Accessories/Label"]
+z_index = -1
+position = Vector2(45.5213, 277.533)
+scale = Vector2(6.13, 6.13)
+texture = ExtResource("18_2vbue")
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
 position = Vector2(97, 500)
@@ -267,3 +278,18 @@ shadow_enabled = true
 shadow_color = Color(0.165656, 0.165656, 0.165656, 0)
 shadow_filter = 2
 shadow_filter_smooth = 0.9
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Goal" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -446.0
+offset_top = 22.0
+offset_right = -23.0
+offset_bottom = 79.0
+grow_horizontal = 0
+text = "Kill all of the enemies"
+label_settings = SubResource("LabelSettings_2vbue")
+horizontal_alignment = 2

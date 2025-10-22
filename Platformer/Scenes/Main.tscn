@@ -1,9 +1,80 @@
-[gd_scene load_steps=2 format=3 uid="uid://vv5bwj2wivhg"]
+[gd_scene load_steps=11 format=3 uid="uid://vv5bwj2wivhg"]
 
 [ext_resource type="Script" uid="uid://dpx3pxmc8u6sc" path="res://Scripts/Main.gd" id="1_r150o"]
+[ext_resource type="Script" uid="uid://bs1653twkw87e" path="res://Scripts/Background.gd" id="2_50glp"]
+[ext_resource type="Texture2D" uid="uid://cw1c3j8q705vj" path="res://assetpack/parallax/forest/forest_sky.png" id="3_vy5pj"]
+[ext_resource type="Texture2D" uid="uid://c7wmh4sklo5on" path="res://assetpack/parallax/forest/forest_moon.png" id="4_bmxlf"]
+[ext_resource type="Texture2D" uid="uid://c4t5racpmtfdn" path="res://assetpack/parallax/forest/forest_mountain.png" id="5_4kpch"]
+[ext_resource type="Texture2D" uid="uid://s5eh4x2hqlhl" path="res://assetpack/parallax/forest/forest_back.png" id="6_grg3l"]
+[ext_resource type="Texture2D" uid="uid://txao6pa83qtg" path="res://assetpack/parallax/forest/forest_mid.png" id="7_frkhe"]
+[ext_resource type="Texture2D" uid="uid://spveuaws47cc" path="res://assetpack/parallax/forest/forest_short.png" id="8_1p5hy"]
+
+[sub_resource type="Theme" id="Theme_50glp"]
+default_font_size = 40
+
+[sub_resource type="Theme" id="Theme_vy5pj"]
+default_font_size = 40
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_r150o")
+
+[node name="Background" type="Node2D" parent="."]
+position = Vector2(1920, 540)
+script = ExtResource("2_50glp")
+
+[node name="Sky" type="Parallax2D" parent="Background"]
+autoscroll = Vector2(2.5, 0)
+repeat_times = 2
+
+[node name="Sky" type="Sprite2D" parent="Background/Sky"]
+position = Vector2(0, -302)
+texture = ExtResource("3_vy5pj")
+region_rect = Rect2(9, 6, 1891, 1195)
+
+[node name="Parallax2D4" type="Parallax2D" parent="Background"]
+autoscroll = Vector2(0.5, 0)
+repeat_times = 2
+
+[node name="Moon" type="Sprite2D" parent="Background/Parallax2D4"]
+position = Vector2(809, -560)
+texture = ExtResource("4_bmxlf")
+
+[node name="Parallax2D5" type="Parallax2D" parent="Background"]
+scroll_offset = Vector2(7.5, 0)
+autoscroll = Vector2(7.5, 0)
+repeat_times = 2
+
+[node name="Mountain" type="Sprite2D" parent="Background/Parallax2D5"]
+position = Vector2(0, -40)
+texture = ExtResource("5_4kpch")
+region_rect = Rect2(0, 0, 3797.5, 2400)
+
+[node name="Parallax2D" type="Parallax2D" parent="Background"]
+scroll_offset = Vector2(10, 0)
+autoscroll = Vector2(10, 0)
+repeat_times = 2
+
+[node name="Back" type="Sprite2D" parent="Background/Parallax2D"]
+position = Vector2(0, 163.5)
+texture = ExtResource("6_grg3l")
+region_rect = Rect2(0, 0, 3800, 2400)
+
+[node name="Parallax2D3" type="Parallax2D" parent="Background"]
+scroll_offset = Vector2(25, 0)
+autoscroll = Vector2(25, 0)
+repeat_times = 2
+
+[node name="Mid" type="Sprite2D" parent="Background/Parallax2D3"]
+position = Vector2(0, 348.5)
+texture = ExtResource("7_frkhe")
+
+[node name="Parallax2D2" type="Parallax2D" parent="Background"]
+autoscroll = Vector2(45, 0)
+repeat_times = 2
+
+[node name="Long" type="Sprite2D" parent="Background/Parallax2D2"]
+position = Vector2(0, 273)
+texture = ExtResource("8_1p5hy")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -16,25 +87,30 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -112.0
-offset_top = -50.0
-offset_right = 112.0
-offset_bottom = 51.0
+offset_left = -228.0
+offset_top = -123.0
+offset_right = 228.0
+offset_bottom = 124.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
 [node name="Single Player" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Single Player"
+size_flags_vertical = 3
+theme = SubResource("Theme_50glp")
+text = "Singleplayer"
 
 [node name="Host" type="Button" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Host"
 
 [node name="Join" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Join"
+size_flags_vertical = 3
+theme = SubResource("Theme_vy5pj")
+text = "Multiplayer"
 
 [node name="Start Game" type="Button" parent="VBoxContainer"]
 visible = false

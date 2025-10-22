@@ -1,11 +1,11 @@
 extends Node2D
 
-var ip_address_input = LineEdit.new()
+#var ip_address_input = LineEdit.new()
 
-func _ready():
-	ip_address_input.text = "dis-responded-scoring-evaluated.trycloudflare.com"
-	var container = $VBoxContainer
-	container.add_child(ip_address_input)
+#func _ready():
+	#ip_address_input.text = "dis-responded-scoring-evaluated.trycloudflare.com"
+	#var container = $VBoxContainer
+	#container.add_child(ip_address_input)
 
 func _on_single_player_pressed() -> void:
 	Network.start_server(1221, 1)
@@ -18,8 +18,12 @@ func _on_host_pressed() -> void:
 	# The server will automatically switch to the level when it's ready.
 
 func _on_join_pressed() -> void:
-	var ip = ip_address_input.text
+	var ip = "dis-responded-scoring-evaluated.trycloudflare.com"
+	#var ip = ip_address_input.text
+	$"VBoxContainer/Single Player".disabled = true
+	$VBoxContainer/Join.disabled = true
 	Network.start_client(ip)
+	
 
 
 func _on_start_game_pressed():

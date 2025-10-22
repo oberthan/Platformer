@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://bal47bx4emcq5"]
+[gd_scene load_steps=16 format=4 uid="uid://bal47bx4emcq5"]
 
 [ext_resource type="Script" uid="uid://b5of1r04aqpn8" path="res://Scripts/Level.gd" id="1_jkw7r"]
 [ext_resource type="PackedScene" uid="uid://chm8q361s8ydj" path="res://Scenes/Player.tscn" id="2_avjic"]
@@ -14,6 +14,9 @@
 [ext_resource type="Texture2D" uid="uid://bkxgtquprto47" path="res://Resources/Textures/2d_lights_and_shadows_neutral_point_light.webp" id="12_ngxpw"]
 [ext_resource type="PackedScene" uid="uid://n82m4mysmsm5" path="res://Scenes/Enemy.tscn" id="12_vmolf"]
 [ext_resource type="Script" path="res://Scenes/Levels/enimies.gd" id="13_ngxpw"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ngxpw"]
+font_size = 41
 
 [node name="Level_1" type="Node2D"]
 script = ExtResource("1_jkw7r")
@@ -199,3 +202,18 @@ shadow_enabled = true
 shadow_color = Color(0.165656, 0.165656, 0.165656, 0)
 shadow_filter = 2
 shadow_filter_smooth = 0.9
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Goal" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -446.0
+offset_top = 22.0
+offset_right = -23.0
+offset_bottom = 79.0
+grow_horizontal = 0
+text = "Kill all of the enemies"
+label_settings = SubResource("LabelSettings_ngxpw")
+horizontal_alignment = 2

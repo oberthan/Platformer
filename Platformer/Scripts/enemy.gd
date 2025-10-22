@@ -159,7 +159,13 @@ func _physics_process(delta: float) -> void:
 
 				
 	else:
-		state = State.IDLE
+		if dead:
+			state = State.DEAD	
+		
+		elif hurting:
+			state = State.HURT
+		else:
+			state = State.IDLE
 		velocity.x = 0
 
 	move_and_slide()
